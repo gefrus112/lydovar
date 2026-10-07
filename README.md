@@ -1,40 +1,40 @@
 # Lardovar
 
-A blocky, Roblox-style browser game: single-file, no build step. Open `index.html`.
+A blocky, Roblox-style browser game in a single file. No build step, no Claude artifact needed:
+open `index.html` (or the GitHub Pages site) in any modern browser.
 
-## Features
-- Third-person avatar (R6-style, rounded blocks) with walk, sprint (E), dash (Q), shift lock (Shift), variable-height jump
-- Physics: stairs, pushable crates, bounce pads, death + shatter animation, fall animation
-- Avatar **Catalog**: 10 shirts, 8 pants, 12 faces, 11 hats, 7 back items (skateboard, wings, jetpack...) with rendered previews
-- Roblox-style home, Games and Catalog pages, per-game thumbnails, local sign-up
-- **Lardovar Studio**: place blocks, lava, bounce pads, crates and spawns, save games, playtest with your own avatar
-- **Lardovar Engine**: games are scripted in **Lua only** (fengari Lua 5.3 VM, sandboxed, instruction-time limited)
-- Settings: sensitivity, FOV, graphics quality, shadows, time of day, name tags, speed effects, invert Y
+## Multiplayer (PeerJS, runs in any browser)
+- **Create server**: type a server name; a random 5-character room code is generated for you.
+- **Join**: enter the code, use an invite link (`...#ABCDE`), or pick a server from the public list.
+- Up to **15 players** per server, chat, player list, FPS and ping, synced crates and avatars (outfit + emotes).
+- The host's browser is the server (peer-to-peer over WebRTC). Signalling uses the free PeerJS cloud.
+- The public server list uses a lobby peer: the first browser online claims `lardovar-lobby-v1` and acts as the registry.
 
-## Controls
-WASD move - Space jump - E sprint - Q dash - Shift shift-lock - Enter chat - R reset - Tab players - Esc settings
+## Gameplay
+WASD move, Space jump (hold for higher), **E** sprint (stamina), **Q** dash, **Shift** shift-lock, **G** emotes (1-7), **Enter** chat,
+**R** reset, **Tab** player list, **Esc** settings. Falling off the baseplate plays a fall animation and a shatter death.
 
-## Lua API
+## Avatar catalog
+Shirts (10), pants (8), faces (18), hats (15), back items (10, incl. skateboard), hair (8), front accessories (8),
+all with rendered previews. Profile page has animations: wave, dance, cheer, flex, salute, spin, sit.
+
+## Lardovar Studio + Lua engine
+Explorer panel (parts + scripts), place/select tools, move/scale/rotate (90-degree steps for solids, 15-degree for decor),
+duplicate, decorations (tree, rock, lamp), kinds: block, lava, bounce, crate, spawn.
+Multiple Lua scripts per game, **live reload** while playtesting (Ctrl+Enter, or auto while typing), save games,
+upload a custom thumbnail or use an automatic screenshot, export/import `.lardovar.json` files.
+
+### Lua API
 ```lua
 on("start" | "update" | "touch" | "died" | "chat", fn)   -- update(dt), touch(partName), chat(msg)
-part(name) -> id        newPart(x,y,z,w,h,d,"#hex",kind)   remove(id)
-getPos(id)  setPos(id,x,y,z)  setColor(id,"#hex")
-playerPos() teleport(x,y,z)  setSpeed(n)  setJump(n)  kill()
-say(text)  print(...)  time()  after(seconds, fn)
--- kinds: block lava bounce crate spawn
+part(name) -> id    newPart(x,y,z,w,h,d,"#hex",kind)   remove(id)
+getPos(id)  setPos(id,x,y,z)  setSize(id,w,h,d)  setRot(id,deg)  setColor(id,"#hex")
+playerPos()  teleport(x,y,z)  setSpeed(n)  setJump(n)  kill()  emote(1-7)
+ui(id,text)  -- HUD label, nil removes      say(text)  print(...)  time()  after(sec, fn)
+-- kinds: block lava bounce crate spawn tree rock lamp
 ```
-Example:
-```lua
-on("touch", function(name)
-  if name == "Coin" then say("Coin!") remove(part("Coin")) end
-end)
-```
-
-## Multiplayer
-Servers (up to 15 players, auto room code, public list, chat, ping/FPS HUD) use the claude.ai Artifact `room`
-capability, so they work when the page is opened as a claude.ai artifact by signed-in users. Hosted elsewhere
-(e.g. GitHub Pages) the game, catalog and Studio work in solo mode; PeerJS cannot be used on claude.ai-hosted
-pages because outbound requests are blocked there.
+Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` and an execution time limit.
 
 ## Notes
-Accounts and saved games live in the browser's localStorage only. Third-party libraries (loaded from jsDelivr / cdnjs): three.js r128, fengari-web 0.1.4.
+Accounts and saved games live in the browser's localStorage. Custom games are single-player playtests.
+Libraries via CDN: three.js r128, fengari-web 0.1.4, PeerJS 1.5.4.
