@@ -142,7 +142,6 @@ body{background:#0b0d12}
 .su-side{position:relative;padding:32px 28px;background:radial-gradient(110% 80% at 0% 0%,rgba(255,122,0,.22),transparent 65%),radial-gradient(110% 80% at 100% 100%,rgba(255,211,107,.10),transparent 65%);display:flex;flex-direction:column;gap:14px;overflow:hidden}
 .su-side::after{content:"";position:absolute;right:0;top:8%;bottom:8%;width:1px;background:linear-gradient(180deg,transparent,rgba(255,122,0,.45),transparent)}
 .su-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:rgba(255,122,0,.18);border:1px solid rgba(255,122,0,.55);border-radius:99px;font-size:10px;letter-spacing:2px;font-weight:700;color:#ffd36b;width:fit-content}
-.su-badge i{width:6px;height:6px;border-radius:99px;background:#6ee7a0;box-shadow:0 0 6px #6ee7a0;animation:suPulse 1.6s ease-in-out infinite}
 @keyframes suPulse{0%,100%{opacity:1}50%{opacity:.4}}
 .su-title{font-size:46px;line-height:.95;margin:4px 0 0;font-weight:900;letter-spacing:-1px;color:#fff;text-shadow:0 4px 24px rgba(0,0,0,.45)}
 .su-title .su-brand{display:inline-block;background:linear-gradient(90deg,#ff7a00,#ffd36b,#ff7a00);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:suShine 4s linear infinite}
@@ -187,6 +186,53 @@ body{background:#0b0d12}
 #signup .btn.su-secondary{width:100%;margin-top:6px;padding:10px;background:transparent;color:#cbd1dd;border:1px solid rgba(255,255,255,.18);border-radius:10px;font-weight:600;cursor:pointer}
 #signup .btn.su-secondary:hover{background:rgba(255,255,255,.05);color:#fff;border-color:rgba(255,255,255,.3)}
 @media (max-width:720px){.su-card{grid-template-columns:1fr}.su-side{padding:22px}.su-title{font-size:36px}.su-feats{flex-direction:row;flex-wrap:wrap}.su-feat{flex:1 1 80px}}
+/* ============ Home page (#auth) polish — modern dark glass over retro layout ============ */
+#auth{background:radial-gradient(120% 100% at 0% 0%,#1a1f3a 0%,#0d1018 55%,#070912 100%);color:#fff}
+#auth::before{content:"";position:absolute;inset:0;background:radial-gradient(40% 40% at 15% 25%,rgba(255,122,0,.14),transparent 60%),radial-gradient(45% 45% at 85% 75%,rgba(98,76,255,.16),transparent 60%);animation:suDrift 18s ease-in-out infinite alternate;pointer-events:none;z-index:0}
+#auth::after{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.05) 1px,transparent 0);background-size:24px 24px;pointer-events:none;z-index:0;opacity:.4}
+#auth>*{position:relative;z-index:1}
+#auth .lpw{color:#fff;max-width:960px;width:min(960px,100%)}
+#auth .lban{background:linear-gradient(135deg,#1a1f2e,#0a0d14);border:1px solid rgba(255,122,0,.3);box-shadow:0 8px 24px -8px rgba(0,0,0,.6);position:relative;overflow:hidden;border-radius:6px 6px 0 0}
+#auth .lban::after{content:"";position:absolute;inset:0;background:radial-gradient(80% 120% at 0% 50%,rgba(255,122,0,.10),transparent 60%);pointer-events:none}
+#auth .lgo{font:900 38px/1 system-ui;letter-spacing:4px;background:linear-gradient(90deg,#ff7a00,#ffd36b,#ff7a00);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:suShine 4s linear infinite;text-shadow:none;position:relative;z-index:1}
+#auth .ltag{color:#cbd1dd;font-size:16px;font-weight:500;position:relative;z-index:1}
+#auth .lplay{background:linear-gradient(180deg,#ff8a30,#ff6b00);border:2px solid rgba(255,211,107,.2);box-shadow:0 8px 18px -6px rgba(255,122,0,.6);transition:transform .12s,box-shadow .15s;font:900 19px system-ui;color:#1a0d00;position:relative;z-index:1}
+#auth .lplay:hover{transform:translateY(-2px);box-shadow:0 14px 24px -10px rgba(255,122,0,.85)}
+#auth .lplay:active{transform:translateY(0)}
+#auth .lnav{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:6px;padding:6px 10px}
+#auth .lnav a{padding:3px 8px;border-radius:4px;transition:background .15s,color .15s;color:#cbd1dd}
+#auth .lnav a:hover{background:rgba(255,122,0,.18);color:#ffd36b}
+#auth .lnav i{display:none}
+#auth .lbody{gap:16px;margin-top:14px}
+#auth .lside{width:240px}
+#auth .mlogin{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:14px;border-radius:8px;color:#cbd1dd}
+#auth .mlogin b{color:#fff;font-size:14px;letter-spacing:.5px}
+#auth .mlogin input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;border-radius:6px;transition:border-color .15s,box-shadow .15s,background .15s}
+#auth .mlogin input::placeholder{color:#7a8395}
+#auth .mlogin input:focus{outline:none;border-color:#ff7a00;background:rgba(255,122,0,.06);box-shadow:0 0 0 3px rgba(255,122,0,.18)}
+#auth .mlogin a{color:#ffd36b;font-weight:600;transition:color .15s}
+#auth .mlogin a:hover{color:#fff}
+#auth #go{background:linear-gradient(180deg,#4a90e2,#2b5a9b);color:#fff;border:0;font-weight:700;padding:8px;border-radius:6px;transition:transform .12s,box-shadow .15s;cursor:pointer}
+#auth #go:hover{transform:translateY(-1px);box-shadow:0 6px 14px -6px rgba(74,144,226,.7)}
+#auth #go:active{transform:translateY(0)}
+#auth .lmain{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:8px;color:#cbd1dd;padding:16px}
+#auth .lmain h2{color:#fff;font-size:24px;letter-spacing:-.5px;margin:0 0 6px}
+#auth .lmain b{color:#ffd36b;font-weight:700}
+#auth .lfeat b{color:#ffd36b;font-size:13px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+#auth .lheroR{border:1px solid rgba(255,122,0,.4);box-shadow:0 12px 28px -10px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06) inset;border-radius:6px;overflow:hidden}
+#auth .lheroR b{color:#ffd36b;text-shadow:2px 2px 0 #000}
+#auth .lfree{background:linear-gradient(180deg,#ff8a30,#ff6b00);color:#1a0d00;border:0;font:900 15px system-ui;padding:10px 18px;border-radius:6px;cursor:pointer;width:100%;margin-top:8px;box-shadow:0 8px 16px -6px rgba(255,122,0,.5);transition:transform .12s,box-shadow .15s,filter .15s}
+#auth .lfree:hover{transform:translateY(-2px);box-shadow:0 12px 20px -8px rgba(255,122,0,.75);filter:brightness(1.05)}
+#auth .lfeat ul li{color:#cbd1dd;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:10px 12px;border-radius:6px;margin:0 0 8px;transition:border-color .15s,background .15s,transform .15s}
+#auth .lfeat ul li:hover{border-color:rgba(255,122,0,.4);background:rgba(255,122,0,.05);transform:translateX(2px)}
+#auth .lcool{margin-top:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:8px;padding:12px;color:#cbd1dd}
+#auth .lcool b{color:#fff;font-size:14px;letter-spacing:.5px}
+#auth .lcool img{width:130px;height:74px;object-fit:cover;border:1px solid rgba(255,255,255,.1);border-radius:6px;transition:transform .15s,box-shadow .15s,border-color .15s}
+#auth .lcool img:hover{transform:translateY(-3px);box-shadow:0 10px 18px -8px rgba(0,0,0,.6);border-color:rgba(255,122,0,.4)}
+#auth .lcool span{color:#cbd1dd;font-size:11px;text-align:center;display:block;margin-top:4px}
+#auth .lfoot{color:#7a8395;font-size:10px;text-align:center;margin:14px 0 12px;line-height:1.5}
+#auth .lerr{color:#ff8d7a;font-weight:600;min-height:16px;font-size:12px}
+@media(max-width:640px){#auth .lbody{flex-direction:column}#auth .lside{width:100%}}
 </style></head><body>
 <div id="vig"></div><div id="fx"></div><div id="fade"></div><div id="toast" class="hidden"></div>
 
@@ -205,7 +251,7 @@ body{background:#0b0d12}
  <div class="su-wrap">
   <div class="su-card">
    <aside class="su-side">
-    <div class="su-badge"><i></i>FREE FOREVER</div>
+    <div class="su-badge">FREE FOREVER</div>
     <h1 class="su-title">JOIN<br><span class="su-brand">LARDOVAR</span></h1>
     <p class="su-sub">Build games, skate the streets, and blast buildings with up to 15 friends — all in one click.</p>
     <div class="su-feats">
@@ -285,7 +331,9 @@ body{background:#0b0d12}
    <div class="prow"><span>Size</span><span class="xyz"><input id="sw" type="number" step=".5"><input id="sh" type="number" step=".5"><input id="sd" type="number" step=".5"></span></div>
    <div class="prow"><span>Rotation</span><input id="pr" type="number" step="15" min="0" max="359"></div><div class="prow"><span>Color</span><input id="pc" type="color" value="#6b7cff"></div>
    <div class="prow"><span></span><span style="display:flex;gap:4px;flex-wrap:wrap"><button id="rl">-90</button><button id="rr">+90</button><button id="pdu">Duplicate</button><button id="pd">Delete</button></span></div></div>
-  <div id="pp-ws" class="hidden"><div class="psec">Data</div><div class="prow"><span>Name</span><span>Workspace</span></div><div class="prow"><span>Baseplate</span><input id="gb" type="checkbox" checked></div></div>
+  <div id="pp-ws" class="hidden"><div class="psec">Data</div><div class="prow"><span>Name</span><span>Workspace</span></div><div class="prow"><span>Baseplate</span><input id="gb" type="checkbox" checked></div><div class="prow" style="border-bottom:0"><span>Multiplayer</span><input id="gmp" type="checkbox" title="When checked, launching this game from the web asks players to create or join a PeerJS room so friends can join."></div>
+   <div id="gmpnote" class="prow hidden" style="font-size:11px;color:#666;background:#f7f7f7;border-top:1px solid #e0e0e0"><span></span><span style="flex:1">When this game is launched from the home page or Games list, players will see the room creation panel and can invite up to 14 friends.</span></div>
+  </div>
   <div id="pp-light" class="hidden"><div class="psec">Data</div><div class="prow"><span>ClockTime</span><input id="lt" type="number" min="0" max="24" step=".25"></div><div class="prow"><span>Sky</span><select id="lsky"></select></div></div>
   <div id="pp-player" class="hidden"><div class="psec">Data</div><div class="prow"><span>WalkSpeed</span><input id="wspd" type="number" min="4" max="60"></div><div class="prow"><span>JumpPower</span><input id="wjmp" type="number" min="5" max="80"></div><div class="prow"><span>RocketLauncher</span><input id="wwpn" type="checkbox"></div></div>
   <div id="pp-script" class="hidden"><div class="psec">Data</div><div class="prow"><span>Name</span><input id="scn" type="text" maxlength="24"></div><div class="prow"><span></span><button id="oed">Open editor</button></div></div>
@@ -573,13 +621,13 @@ function leaveNet(){clearInterval(net.tick);clearInterval(net.pt);try{if(net.pee
 function startHost(name,code,tries=0){if(typeof Peer==='undefined')return fail('PeerJS failed to load. Are you online?');code=code||genCode();toast('Creating server…');
  let ok=false;const peer=new Peer('lv-'+code.toLowerCase());net.peer=peer;
  const to=setTimeout(()=>{if(!ok){leaveNet();fail('Could not reach the PeerJS server. Check your connection.')}},10000);
- peer.on('open',id=>{ok=true;clearTimeout(to);Object.assign(net,{m:'host',id,code,sv:name,pl:{},conns:{},t0:performance.now(),an:0,gid:playGid});fromEd=false;if(playGid==='cross')buildWorld(crossGame());enter();announce();net.tick=setInterval(hostTick,66)});
+ peer.on('open',id=>{ok=true;clearTimeout(to);Object.assign(net,{m:'host',id,code,sv:name,pl:{},conns:{},t0:performance.now(),an:0,gid:playGid,gd:pendingGame});fromEd=false;if(pendingGame){buildWorld(pendingGame);luaStart(pendingGame.scripts);pendingGame=null}else if(playGid==='cross')buildWorld(crossGame());enter();announce();net.tick=setInterval(hostTick,66)});
  peer.on('disconnected',()=>{if(ok)try{peer.reconnect()}catch(e){}});
  peer.on('error',e=>{if(e.type==='unavailable-id'&&tries<4&&!ok){clearTimeout(to);peer.destroy();startHost(name,genCode(),tries+1)}else if(!ok){clearTimeout(to);leaveNet();fail('Connection error: '+e.type)}});
  peer.on('connection',c=>{
   c.on('data',d=>{if(!d||typeof d!=='object')return;
    if(d.t==='hello'){if(Object.keys(net.pl).length>=14){send(c,{t:'full'});setTimeout(()=>c.close(),400);return}
-    net.conns[c.peer]=c;net.pl[c.peer]={n:String(d.n||'Player').slice(0,16),s:[0,0,0,0,1,0,0,0],o:clampOut(d.o)};send(c,{t:'w',sv:net.sv,code:net.code,g:net.gid});say('',net.pl[c.peer].n+' joined',1)}
+    net.conns[c.peer]=c;net.pl[c.peer]={n:String(d.n||'Player').slice(0,16),s:[0,0,0,0,1,0,0,0],o:clampOut(d.o)};send(c,{t:'w',sv:net.sv,code:net.code,g:net.gid,gd:net.gd||null});say('',net.pl[c.peer].n+' joined',1)}
    else if(!net.pl[c.peer])return;else if(d.t==='p'&&Array.isArray(d.s)){net.pl[c.peer].s=d.s.slice(0,8).map(Number);net.pl[c.peer].o=clampOut(d.o)}
    else if(d.t==='c'){const m=String(d.m).slice(0,120);if(m)say(net.pl[c.peer].n,m)}else if(d.t==='ping')send(c,{t:'pong',ts:d.ts});else if(d.t==='rk'&&W&&Array.isArray(d.o)&&Array.isArray(d.d)){const o=new V3(...d.o.map(Number)),dr=new V3(...d.d.map(Number)).normalize(),by=net.pl[c.peer].n;spawnRocket(o,dr,by);for(const id in net.conns)if(id!==c.peer)send(net.conns[id],{t:'rk',o:d.o,d:d.d,by})}});
   c.on('close',()=>{const p=net.pl[c.peer];if(p){say('',p.n+' left',1);delete net.pl[c.peer];delete net.conns[c.peer]}})})}
@@ -588,7 +636,7 @@ function joinRoom(code){code=String(code).toUpperCase().trim();if(!/^[A-Z2-9]{5}
  peer.on('error',e=>{if(ok)return;clearTimeout(to);leaveNet();fail(e.type==='peer-unavailable'?'No server with that code.':'Connection error: '+e.type)});
  peer.on('open',id=>{const c=peer.connect('lv-'+code.toLowerCase(),{serialization:'json',reliable:true});net.hc=c;c.on('open',()=>send(c,{t:'hello',n:me.name,o:lp.o}));
   c.on('data',d=>{if(!d||typeof d!=='object')return;
-   if(d.t==='w'){ok=true;clearTimeout(to);Object.assign(net,{m:'client',id,code,sv:String(d.sv||'Server').slice(0,28),t0:performance.now(),gid:d.g==='cross'?'cross':'base'});fromEd=false;if(d.g==='cross')buildWorld(crossGame());enter();
+   if(d.t==='w'){ok=true;clearTimeout(to);Object.assign(net,{m:'client',id,code,sv:String(d.sv||'Server').slice(0,28),t0:performance.now(),gid:String(d.g||'base').slice(0,16)});fromEd=false;if(d.gd&&d.gd.parts){buildWorld(d.gd);enter();luaStart(d.gd.scripts)}else if(d.g==='cross'){buildWorld(crossGame());enter()}else enter();
     net.tick=setInterval(()=>send(c,{t:'p',s:myState(),o:lp.o}),66);net.pt=setInterval(()=>send(c,{t:'ping',ts:performance.now()}),2000)}
    else if(d.t==='full'){clearTimeout(to);leaveNet();fail('Server is full (15/15).')}
    else if(d.t==='s'&&d.p){applySnap(d.p);if(Array.isArray(d.cr))d.cr.forEach((a,i)=>{if(crates[i]&&Array.isArray(a))crates[i].tg=a})}
@@ -669,9 +717,9 @@ const PAGES={
   CATS.forEach((c,k)=>{const b=document.createElement('button');b.className='btn g'+(k===catTab?' on':'');b.textContent=c[0];b.onclick=()=>{catTab=k;go('catalog')};$('ctabs').append(b)});
   const[,names,slot]=CATS[catTab];names.forEach((n,i)=>{const t=document.createElement('div'),im=new Image(),l=document.createElement('div');t.className='tile'+(OUT[slot]===i?' on':'');im.src=itemImg(slot,i);l.textContent=n;t.append(im,l);
    t.onclick=()=>{OUT[slot]=i;LS.set('lyd_out',OUT);outfit(lp,OUT);go('catalog')};$('cgrid').append(t)})}};
-function openPlay(code,gid){playGid=gid||'base';$('mtitle').textContent='Play '+(playGid==='cross'?'Crossroads':'Lardovar Baseplate');pendCode=genCode();$('rc').textContent=pendCode;$('sn').value='';$('sn').placeholder=me.name+"'s Server";if(code)$('jc').value=code;show('modal')}
+function openPlay(code,gid){playGid=gid||'base';$('mtitle').textContent= pendingGame ? ('Play '+(pendingGame.name||'Lardovar Game')) : ('Play '+(playGid==='cross'?'Crossroads':'Lardovar Baseplate'));pendCode=genCode();$('rc').textContent=pendCode;$('sn').value='';$('sn').placeholder=me.name+"'s Server";if(code)$('jc').value=code;show('modal')}
 $('mk').onclick=()=>startHost(($('sn').value.trim()||me.name+"'s Server").slice(0,28),pendCode);$('jn').onclick=()=>joinRoom($('jc').value);
-$('solo').onclick=()=>{net.m='solo';fromEd=false;if(playGid==='cross')buildWorld(crossGame());enter()};$('mx').onclick=()=>show('app');
+$('solo').onclick=()=>{net.m='solo';fromEd=false;if(pendingGame){buildWorld(pendingGame);enter();luaStart(pendingGame.scripts);pendingGame=null}else{if(playGid==='cross')buildWorld(crossGame());enter()}};$('mx').onclick=()=>{pendingGame=null;show('app')};
 $('cp').onclick=async()=>{const u=location.href.split('#')[0]+'#'+net.code;try{await navigator.clipboard.writeText(u);toast('Invite link copied')}catch(e){toast('Room code: '+net.code)}};
 function enter(){state='game';['auth','app','modal'].forEach(i=>$(i).classList.add('hidden'));$('hud').classList.remove('hidden');$('toast').classList.add('hidden');
  const solo=net.m==='solo';crates.forEach(b=>{b.dyn=net.m!=='client';b.v.set(0,0,0)});$('svn').textContent=solo?'Solo':net.sv;$('code').textContent=solo?'—':net.code;$('cp').style.display=solo?'none':'';
@@ -805,7 +853,10 @@ function mkMesh(d){let m;const[w,h,dd]=d.s;
  else m=new THREE.Mesh(new THREE.BoxGeometry(w,h,dd),partMat(d.k,d.c));
  m.castShadow=!DECOR.has(d.k);m.receiveShadow=true;m.position.set(...d.p);m.rotation.y=d.r*Math.PI/180;return m}
 // editor state
-let SP=[],SC=[],cs=0,sel=null,selK='none',tool='select',curGame=null,fromEd=false,partN=0,thumbCustom=null,liveT=null,GS={tod:11,spd:16,jmp:25,wpn:0,base:1},tab='home',expd={ws:1,ss:1},drag=null;
+let SP=[],SC=[],cs=0,sel=null,selK='none',tool='select',curGame=null,fromEd=false,partN=0,thumbCustom=null,liveT=null,GS={tod:11,spd:16,jmp:25,wpn:0,base:1,mp:0},tab='home',expd={ws:1,ss:1},drag=null;
+// pendingGame holds a custom game waiting to launch when the multiplayer
+// "create room" modal is open. Set by playGame() when g.mp===1.
+let pendingGame=null;
 const EG=new THREE.Group(),HL=new THREE.BoxHelper(new THREE.Mesh(new THREE.BoxGeometry(1,1,1)),0xffd43b),sc={yaw:.8,pitch:.55,dist:46,t:new V3()},sk={},rc=new THREE.Raycaster(),mv=new THREE.Vector2(),cv=ren.domElement;
 EG.visible=false;HL.visible=false;scene.add(EG,HL);
 function addPart(d){const m=mkMesh(d);m.userData.part=d;EG.add(m);d.mesh=m;SP.push(d);return d}
@@ -871,7 +922,7 @@ function exRender(){const el=$('ex'),q=$('esearch').value.toLowerCase();el.repla
 $('esearch').oninput=exRender;
 function showProps(){['pp-part','pp-ws','pp-light','pp-player','pp-script','pp-none'].forEach(i=>$(i).classList.add('hidden'));const F=(i,v)=>{$(i).value=v};let t='Properties',b='pp-none';
  if(selK==='part'&&sel){const d=sel;b='pp-part';t='Properties - '+d.n;F('pn',d.n);F('pk',d.k);F('px',+d.p[0].toFixed(2));F('py',+d.p[1].toFixed(2));F('pz',+d.p[2].toFixed(2));F('sw',+d.s[0].toFixed(2));F('sh',+d.s[1].toFixed(2));F('sd',+d.s[2].toFixed(2));F('pr',d.r);F('pc',d.c)}
- else if(selK==='ws'){b='pp-ws';t='Properties - Workspace';$('gb').checked=!!GS.base}
+ else if(selK==='ws'){b='pp-ws';t='Properties - Workspace';$('gb').checked=!!GS.base;$('gmp').checked=!!GS.mp;$('gmpnote').classList.toggle('hidden',!GS.mp)}
  else if(selK==='light'){b='pp-light';t='Properties - Lighting';F('lt',GS.tod);F('lsky',SKIES.reduce((a,x,i)=>Math.abs(x[1]-GS.tod)<.01?i:a,-1))}
  else if(selK==='player'){b='pp-player';t='Properties - StarterPlayer';F('wspd',GS.spd);F('wjmp',GS.jmp);$('wwpn').checked=!!GS.wpn}
  else if(selK==='script'&&SC[cs]){b='pp-script';t='Properties - '+SC[cs].n;F('scn',SC[cs].n)}
@@ -886,6 +937,7 @@ $('pc').oninput=e=>{if(sel){sel.c=e.target.value;refresh(sel)}};
 const rot=a=>{if(sel){sel.r=(sel.r+a+360)%360;$('pr').value=sel.r;refresh(sel)}};$('rl').onclick=()=>rot(-90);$('rr').onclick=()=>rot(90);
 $('pdu').onclick=()=>{if(sel){const g=+$('gg').value||1;pick(addPart({k:sel.k,n:newName(sel.k),p:[sel.p[0]+g*2,sel.p[1],sel.p[2]],s:[...sel.s],r:sel.r,c:sel.c}))}};$('pd').onclick=delSel;
 $('gb').onchange=e=>{GS.base=e.target.checked?1:0;base.visible=!!GS.base};
+$('gmp').onchange=e=>{GS.mp=e.target.checked?1:0;$('gmpnote').classList.toggle('hidden',!GS.mp);toast(GS.mp?'Multiplayer enabled — players will be asked to create a room when launching this game from the web.':'Multiplayer disabled.')};
 $('lt').oninput=e=>{GS.tod=+e.target.value;setTod(GS.tod)};$('lsky').onchange=e=>{GS.tod=SKIES[+e.target.value][1];$('lt').value=GS.tod;setTod(GS.tod)};
 $('wspd').oninput=e=>{GS.spd=+e.target.value||16};$('wjmp').oninput=e=>{GS.jmp=+e.target.value||25};$('wwpn').onchange=e=>{GS.wpn=e.target.checked?1:0};
 $('scn').oninput=e=>{SC[cs].n=e.target.value.replace(/\W/g,'').slice(0,24)||'Script';$('scn2').value=SC[cs].n;exRender()};$('scn2').oninput=e=>{SC[cs].n=e.target.value.replace(/\W/g,'').slice(0,24)||'Script';exRender()};
@@ -930,11 +982,11 @@ function studio(dt){const f=(sk.w?1:0)-(sk.s?1:0),r=(sk.d?1:0)-(sk.a?1:0),u=(sk.
  sun.position.set(sc.t.x+sunDir.x*70,Math.max(20,sunDir.y*70),sc.t.z+sunDir.z*70);sun.target.position.copy(sc.t);gzUpdate()}
 // open / save / export
 function openStudio(g){curGame=g||null;SP.forEach(d=>EG.remove(d.mesh));SP=[];sel=null;selK='none';HL.visible=false;partN=g?g.parts.length:0;thumbCustom=g&&g.tc?g.thumb:null;
- if(g){g.parts.forEach(p=>addPart({k:p.k,n:p.n,p:[...p.p],s:[...p.s],r:p.r||0,c:p.c}));SC=g.scripts.map(x=>({n:x.n,src:x.src}));$('gn').value=g.name;GS={tod:g.tod,spd:g.spd,jmp:g.jmp,wpn:g.wpn,base:g.base}}
- else{addPart({k:'spawn',n:'Spawn',p:[0,.25,0],s:[6,.5,6],r:0,c:'#888888'});SC=[{n:'Main',src:LUA0}];$('gn').value='';GS={tod:11,spd:16,jmp:25,wpn:0,base:1}}
+ if(g){g.parts.forEach(p=>addPart({k:p.k,n:p.n,p:[...p.p],s:[...p.s],r:p.r||0,c:p.c}));SC=g.scripts.map(x=>({n:x.n,src:x.src}));$('gn').value=g.name;GS={tod:g.tod,spd:g.spd,jmp:g.jmp,wpn:g.wpn,base:g.base,mp:g.mp||0}}
+ else{addPart({k:'spawn',n:'Spawn',p:[0,.25,0],s:[6,.5,6],r:0,c:'#888888'});SC=[{n:'Main',src:LUA0}];$('gn').value='';GS={tod:11,spd:16,jmp:25,wpn:0,base:1,mp:0}}
  sc.t.set(0,0,0);BLDM.length=0;$('lout').textContent='';openScript(0);$('sed').classList.add('hidden');setTod(GS.tod);tbRender();exRender();showProps();backToStudio()}
 function backToStudio(){state='studio';EG.visible=true;setDef(false);base.visible=!!GS.base;lp.g.visible=false;['auth','signup','app','modal','hud'].forEach(i=>$(i).classList.add('hidden'));$('studio').classList.remove('hidden','playing');$('sed').classList.add('hidden');setTod(GS.tod)}
-const collect=()=>({id:curGame?curGame.id:Date.now().toString(36),name:($('gn').value.trim()||'Untitled').slice(0,28),parts:SP.map(d=>({k:d.k,n:d.n,p:d.p.map(v=>+(+v).toFixed(2)),s:d.s.map(v=>+(+v).toFixed(2)),r:d.r,c:d.c})),scripts:SC.map(x=>({n:x.n,src:x.src})),base:GS.base,tod:GS.tod,spd:GS.spd,jmp:GS.jmp,wpn:GS.wpn,thumb:curGame?curGame.thumb:'',tc:thumbCustom?1:0});
+const collect=()=>({id:curGame?curGame.id:Date.now().toString(36),name:($('gn').value.trim()||'Untitled').slice(0,28),parts:SP.map(d=>({k:d.k,n:d.n,p:d.p.map(v=>+(+v).toFixed(2)),s:d.s.map(v=>+(+v).toFixed(2)),r:d.r,c:d.c})),scripts:SC.map(x=>({n:x.n,src:x.src})),base:GS.base,tod:GS.tod,spd:GS.spd,jmp:GS.jmp,wpn:GS.wpn,mp:GS.mp?1:0,thumb:curGame?curGame.thumb:'',tc:thumbCustom?1:0});
 function snapStudio(){HL.visible=false;GZ.visible=false;ren.setPixelRatio(1);ren.setSize(640,360,false);cam.aspect=16/9;cam.updateProjectionMatrix();ren.render(scene,cam);const u=ren.domElement.toDataURL('image/jpeg',.8);applyCfg();HL.visible=!!sel;return u}
 $('gs').onclick=()=>{if(state!=='studio')return;const g=collect();g.thumb=thumbCustom||snapStudio();g.tc=thumbCustom?1:0;LS.set('lyd_games',[g,...mine().filter(x=>x.id!==g.id)]);curGame=g;toast('Saved '+g.name)};
 function exportGame(){const g=collect();g.thumb=thumbCustom||snapStudio();const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(g)],{type:'application/json'}));a.download=(g.name||'game').replace(/\W+/g,'_')+'.lardovar.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
@@ -956,7 +1008,20 @@ function mkPart(p){const r90=Math.round((p.r||0)/90)%2===1;
 function killPart(b){b.gone=1;b.mesh.visible=false;let i=all.indexOf(b);if(i>0)all.splice(i,1);i=crates.indexOf(b);if(i>=0)crates.splice(i,1)}
 function buildWorld(g){setDef(false);BLDM.length=0;base.visible=g.base!==0;floorOn=g.base!==0;all.length=1;crates.length=0;W={parts:[],names:{},spawn:[0,6,0]};spdMul=(g.spd||16)/16;jumpV=g.jmp||25;setWpn(!!g.wpn);hp=100;setTod(g.tod!=null?g.tod:cfg.tod);g.parts.forEach(p=>mkPart(p))}
 function endWorld(){rockets.forEach(r=>scene.remove(r.m));rockets.length=0;W.parts.forEach(b=>{scene.remove(b.mesh);if(b.mesh.geometry)b.mesh.geometry.dispose()});W=null;all.length=1;all.push(...DEF);crates.length=0;crates.push(...defCr);floorOn=true;spdMul=1;jumpV=25;setWpn(false);lp.wp=0;hp=100;setDef(true);setTod()}
-function playGame(g,ed){fromEd=!!ed;buildWorld(g);net.m='solo';HL.visible=false;GZ.visible=false;EG.visible=false;enter();luaStart(g.scripts);$('studio').classList.toggle('hidden',!ed);if(ed){$('studio').classList.add('playing');$('sed').classList.remove('hidden')}}
+function playGame(g,ed){
+ fromEd=!!ed;
+ // Multiplayer games launched from the web (not from the Studio editor)
+ // show the room-creation modal first so the player can host or join.
+ if(g.mp && !ed){
+  pendingGame=g;          // remember the game for when "Create"/"Solo" is clicked
+  playGid=g.id||'base';
+  openPlay(null, playGid);
+  // Pre-fill the server name with "<username>'s <gamename>"
+  $('sn').value=(me.name+"'s "+(g.name||'Game')).slice(0,28);
+  $('mtitle').textContent='Play '+(g.name||'Lardovar Game');
+  return;
+ }
+ buildWorld(g);net.m='solo';HL.visible=false;GZ.visible=false;EG.visible=false;enter();luaStart(g.scripts);$('studio').classList.toggle('hidden',!ed);if(ed){$('studio').classList.add('playing');$('sed').classList.remove('hidden')}}
 
 // ---------- weapons: rocket launcher, destructible buildings, Crossroads
 const rockets=[],flash=new THREE.PointLight(0xffa040,0,60);scene.add(flash);
@@ -1017,8 +1082,34 @@ const PRE=`local H,T={},{}
 function on(e,f) H[e]=H[e] or {} H[e][#H[e]+1]=f end
 function __fire(e,...) for _,f in ipairs(H[e] or {}) do local ok,err=pcall(f,...) if not ok then print("Error: "..tostring(err)) end end end
 function print(...) local t={} for i=1,select('#',...) do t[#t+1]=tostring((select(i,...))) end __out(table.concat(t," ")) end
+function warn(...) local t={} for i=1,select('#',...) do t[#t+1]=tostring((select(i,...))) end __out("[warn] "..table.concat(t," ")) end
 function after(s,f) T[#T+1]={s,f} end
 on("update",function(dt) for i=#T,1,-1 do local t=T[i] t[1]=t[1]-dt if t[1]<=0 then table.remove(T,i) t[2]() end end end)
+-- ===== Real working global Lua API (Roblox-style + Lua 5.1 compat) =====
+-- loadstring is gone in Lua 5.3+; shim it back so scripts written for 5.1 work.
+loadstring = loadstring or function(src, name) return load(src, name or "=(loadstring)") end
+-- typeof mirrors Roblox (alias to type for now, can be extended for custom types).
+typeof = typeof or type
+-- tick() returns seconds since engine start (same as the time() binding).
+tick = tick or function() return time() end
+-- wait/delay/spawn — Roblox-style task scheduler built on top of after().
+-- NOTE: real coroutine yielding isn't supported from JS-driven pcall, so
+-- wait(s) schedules a no-op rather than blocking the caller. Pass a
+-- callback to delay() / task.delay() instead of using wait() to synchronize.
+wait  = wait  or function(s) after(s or 0, function() end) end
+delay = delay or function(s, f) after(s, f) end
+spawn = spawn or function(f) after(0, f) end
+-- Lightweight value-type constructors for vector math and colors.
+Vector3 = Vector3 or function(x,y,z) return setmetatable({x=tonumber(x) or 0,y=tonumber(y) or 0,z=tonumber(z) or 0},{
+  __add=function(a,b) return Vector3(a.x+b.x,a.y+b.y,a.z+b.z) end,
+  __sub=function(a,b) return Vector3(a.x-b.x,a.y-b.y,a.z-b.z) end,
+  __mul=function(a,k) return Vector3(a.x*k,a.y*k,a.z*k) end,
+  __tostring=function(a) return string.format("%.2f, %.2f, %.2f",a.x,a.y,a.z) end}) end
+Color3 = Color3 or function(r,g,b) return setmetatable({r=tonumber(r) or 0,g=tonumber(g) or 0,b=tonumber(b) or 0},{
+  __tostring=function(c) return string.format("Color3(%d,%d,%d)",c.r,c.g,c.b) end}) end
+-- task.* — Roblox-style scheduler namespace.
+task = task or { wait=function(s) after(s or 0, function() end) end, delay=function(s,f) after(s,f) end, spawn=function(f) after(0,f) end, cancel=function() end }
+-- string.format / table.* / math.* are all already available from the stdlib.
 os=nil io=nil debug=nil package=nil require=nil dofile=nil loadfile=nil`;
 function luaStop(){if(L){try{fengari.lua.lua_close(L)}catch(e){}L=null}$('luaui').replaceChildren()}
 function luaStart(list){luaStop();$('lout').textContent='';if(typeof fengari==='undefined'){out('Lua engine failed to load.');return}
