@@ -35,6 +35,17 @@ ui(id,text)  -- HUD label, nil removes      say(text)  print(...)  time()  after
 ```
 Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` and an execution time limit.
 
+
+## v8 highlights
+- **Crossroads** (new game): spawn on a city intersection with a **rocket launcher** (click or F, or the Fire button). Rockets explode with splash damage, knockback and screen shake.
+  Buildings take two hits, crumble into debris, and **rebuild themselves after ~14 s**. Parked cars and crates are physics objects you can blast around. Health bar with regeneration, 15-player servers.
+- **Studio redesign** in the style of Roblox Studio: top bar (Test / play / stop), ribbon tabs, **Toolbox** (models, parts, skies), **Explorer** (Workspace, Lighting, StarterPlayer, ServerScriptService), **Properties**,
+  viewport frame, Select/Move/Scale/Rotate/Transform tools with on-screen gizmos, snapping, a script editor panel with live reload.
+- Lighting and graphics: image-based lighting from the sky, ACES tone mapping, glowing building windows at night, metallic car paint, time-of-day sky presets.
+- More clothes: 18 shirts, 14 pants. Hair, front accessories, 18 faces, 15 hats, 10 back items.
+- Classic web-page style landing page, a sign-up page with starter characters, and a top-navigation home page.
+- New Lua: `weapon(true)`, `ui()`, `setSize`, `setRot`, `emote`; new part kinds: building, car, slab.
+
 ## Notes
 Accounts and saved games live in the browser's localStorage. Custom games are single-player playtests.
 Libraries via CDN: three.js r128, fengari-web 0.1.4, PeerJS 1.5.4.
