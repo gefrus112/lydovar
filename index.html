@@ -128,7 +128,8 @@ body{background:#0b0d12}
 #studio.playing #rib,#studio.playing #tb,#studio.playing #exp,#studio.playing #prp,#studio.playing #vp,#studio.playing .tabs2{display:none}
 #studio.playing #sed{left:auto;right:0;top:60px;bottom:auto;width:420px;height:min(60%,520px)}#studio.playing ~ #hud #tl{top:62px}#studio.playing ~ #hud #luaui{top:120px}
 @media (max-width:900px){#tb{width:180px}#vp{left:180px}#sed{left:180px}#exp,#prp{width:240px}#vp{right:240px}#sed{right:240px}}
-#signup .tile{width:96px}</head><body>
+#signup .tile{width:96px}
+</style></head><body>
 <div id="vig"></div><div id="fx"></div><div id="fade"></div><div id="toast" class="hidden"></div>
 
 <div id="auth" class="screen lp"><div class="lpw">
@@ -835,7 +836,7 @@ function exportGame(){const g=collect();g.thumb=thumbCustom||snapStudio();const 
 $('tf').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=640;c.height=360;const x=c.getContext('2d'),k=Math.max(640/im.width,360/im.height),w=im.width*k,h=im.height*k;x.drawImage(im,(640-w)/2,(360-h)/2,w,h);thumbCustom=c.toDataURL('image/jpeg',.82);toast('Thumbnail set. Press Save to keep it.')};im.src=r.result};r.readAsDataURL(f)};
 $('gf').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;f.text().then(t=>{let g=null;try{g=cleanGame(JSON.parse(t))}catch(x){}if(!g)return toast('Not a valid Lardovar game file');g.id=Date.now().toString(36);openStudio(g);toast('Imported '+g.name)})};
 $('gx').onclick=()=>{$('studio').classList.add('hidden');EG.visible=false;HL.visible=false;GZ.visible=false;setDef(true);lp.g.visible=true;state='menu';setTod();show('app');go('studio')};
-$('gp').onclick=$('spl').onclick=()=>{if(state==='studio')playGame(collect(),true)};$('stp').onclick=()=>{if(state==='game'&&fromEd)exitGame()};
+$('spl').onclick=()=>{if(state==='studio')playGame(collect(),true)};$('stp').onclick=()=>{if(state==='game'&&fromEd)exitGame()};
 $('rld').onclick=()=>{if(state==='game'&&fromEd)reloadPlay();else if(state==='studio')playGame(collect(),true)};
 function reloadPlay(){const g=collect();if(W)endWorld();buildWorld(g);respawn();luaStart(SC)}
 
