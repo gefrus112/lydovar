@@ -46,6 +46,20 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Classic web-page style landing page, a sign-up page with starter characters, and a top-navigation home page.
 - New Lua: `weapon(true)`, `ui()`, `setSize`, `setRot`, `emote`; new part kinds: building, car, slab.
 
+
+## v9: Studio v2 and Roblox-compatible scripting
+- **Roblox-style Lua API** (Luau-lite). Paste AI-written Roblox scripts: `game:GetService`, `Players.LocalPlayer`, `Instance.new` for
+  `ScreenGui / Frame / TextLabel / TextButton / ImageLabel / UICorner / UIStroke`, `Part`, `Fire / Smoke / Sparkles / ParticleEmitter / PointLight / Explosion`,
+  `TweenService:Create(...):Play()` with easing, `Touched / MouseEnter / MouseButton1Click / Heartbeat / InputBegan` events, `task.wait / spawn / delay`, `wait()`,
+  `Vector3 / CFrame / Color3 / BrickColor / UDim2 / Enum / TweenInfo`, `Humanoid` (Health / WalkSpeed / JumpPower), `Lighting.ClockTime`, `require(ModuleScript)`.
+  Luau `x += 1` is converted automatically. The layer is in `rbx-api-layer.lua`.
+- **Script / LocalScript / ModuleScript** in ServerScriptService, StarterPlayerScripts, StarterGui and ReplicatedStorage.
+- **Studio v2**: Welcome tab with templates and What's New, Explorer with class icons and "+" insert menus, free-fly camera, undo/redo, copy/paste,
+  material / transparency / anchored / can-collide / locked properties, **StarterGui editor** (live preview), **StarterPack tools** (backpack hotbar),
+  **Terrain editor** (raise, lower, smooth, flatten, paint, water) with real collision, **Animation editor** (keyframe avatar joints and parts, `playAnim("Name")`).
+- Hitbox view (Settings > Show hitboxes), narrower player hitbox, rockets hit other players.
+- Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
+
 ## Notes
 Accounts and saved games live in the browser's localStorage. Custom games are single-player playtests.
 Libraries via CDN: three.js r128, fengari-web 0.1.4, PeerJS 1.5.4.
