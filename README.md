@@ -1,4 +1,4 @@
-# Lardovar
+live website  https://gefrus112.github.io/lydovar/ # Lardovar
 
 A blocky, Roblox-style browser game in a single file. No build step, no Claude artifact needed:
 open `index.html` (or the GitHub Pages site) in any modern browser.
