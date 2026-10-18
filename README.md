@@ -60,6 +60,18 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Hitbox view (Settings > Show hitboxes), narrower player hitbox, rockets hit other players.
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
+
+## v10: new home, safer servers, better graphics
+- **Home page** redesigned after a modern sky-style layout: avatar banner, nav bar (My Lardovar, Games, Catalog, Develop, Avatar, Inventory, Trade, Groups, Forum, News),
+  "Hello" with your headshot, **Friends** (players you met in servers, shown with their real avatars), **Recently Played**, **My Favorites** (star a game), public servers and a Chat & Party bar.
+  The old classic landing page is gone; the login page is a clean sky page.
+- **Error dialogs** (Roblox-style, with codes): 277 lost connection / internet down, 279 failed to connect, 524 no server with that code, 529 server full,
+  273 account used twice (same account in another tab, or same name already in the server), 268 kicked by anti-cheat.
+- **One login per account**: logging in on another tab logs the older tab out. A server rejects a second player with the same account name.
+- **Anti-cheat** (the host validates every player): impossible positions, speed/teleport hacks, hovering, chat spam and rocket spam / rockets fired from far away.
+- Graphics: gamma-correct (sRGB) lighting, bump-mapped baseplate, softer shadows, noisy terrain colours.
+- Fixed: "Cannot read properties of undefined (reading 'toLowerCase')" when a key event has no `key` (browser autofill / IME); duplicate element ids (player count, copy-invite).
+
 ## Notes
 Accounts and saved games live in the browser's localStorage. Custom games are single-player playtests.
 Libraries via CDN: three.js r128, fengari-web 0.1.4, PeerJS 1.5.4.
