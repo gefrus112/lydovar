@@ -61,6 +61,13 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v12: plugins, themes, smarter script editor, data backup
+- **Plugins tab** (Studio): six model generators (Checker Floor, Tower Stairs, Pillar Ring, Obby Course, Pine Forest, Castle Wall), also listed in Toolbox > Models.
+  Write your own plugins in JavaScript with a small `studio` API (`studio.add`, `studio.part`, `studio.rand`, `studio.selection`, `studio.parts`); they are saved in your browser.
+- **Themes**: Dark, Light, Midnight and High contrast, remembered between visits.
+- **Script editor**: Tab / Shift+Tab indent, auto-indent, auto-closing brackets and quotes, Ctrl+/ comments lines, clickable Roblox API suggestions, live Lua syntax check with line and column.
+- **Data**: Backup all data / Restore backup (accounts, games, models, plugins as one file); the site redirects `http` to `https` and asks the browser to keep your saved data.
+
 ## v11: model building, script library, tools, custom-game multiplayer
 - **Studio**: prefab models (House, Tower, Bridge, Grove, Stairs, Fence, Pyramid, Street), multi-select (Shift+click), group / ungroup (Ctrl+G), rotate and duplicate groups,
   **My Models** (save a selection and reuse it), and a **script library** with 10 ready-made snippets (Kill Brick, Spinner, Teleporter, Coin Counter, Fire Trap, Heal Pad ...).
