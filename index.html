@@ -523,7 +523,7 @@ function chat(n,m,sys){const d=document.createElement('div'),b=document.createEl
 const fail=m=>toast(m,7000),send=(c,o)=>{try{if(c&&c.open)c.send(o)}catch(e){}},bcast=o=>Object.values(net.conns).forEach(c=>send(c,o));
 const myState=()=>[+pb.c.x.toFixed(2),+(pb.c.y-2.6).toFixed(2),+pb.c.z.toFixed(2),+lp.g.rotation.y.toFixed(2),pb.ground?1:0,sprinting?1:0,dead?1:0,lp.em|0];
 const say=(n,m,s)=>{chat(n,m,s);bcast({t:'c',n,m,s})};
-function sendChat(m){m=m.trim().slice(0,120);if(!m)return;if(W)luaFire('chat',m);if(net.m==='host')say(me.name,m);else if(net.m==='client')send(net.hc,{t:'c',m});else chat(me.name,m)}
+function sendChat(m){m=m.trim().slice(0,120);if(!m)return;if(v13Swear(m)){v13Ban();return}if(W)luaFire('chat',m);if(net.m==='host')say(me.name,m);else if(net.m==='client')send(net.hc,{t:'c',m});else chat(me.name,m)}
 function dropRemote(id,quiet){const r=remotes[id];if(r){if(!quiet&&state==='game')chat('',r.n+' left',1);scene.remove(r.av.g);delete remotes[id]}}
 function applySnap(p){for(const id in p){if(id===net.id)continue;const q=p[id];if(!Array.isArray(q)||q.length<8)continue;const[n0,x,y,z,ry,g,sp,d,e,o]=q;if([x,y,z,ry].some(v=>typeof v!=='number'||!isFinite(v)))continue;
   const n=String(n0||'Player').slice(0,16),oo=clampOut(o);let r=remotes[id];
@@ -556,7 +556,7 @@ function startHost(name,code,tries=0){if(typeof Peer==='undefined')return netErr
     const nm0=String(d.n||'Player').slice(0,16).replace(/[^\w ]/g,'')||'Player';if(nm0.toLowerCase()===String(me.name).toLowerCase()||Object.values(net.pl).some(q=>q.n.toLowerCase()===nm0.toLowerCase())){send(c,{t:'kick',code:273,msg:'You cannot join: this account is already in the server (the same account joined from another device).'});setTimeout(()=>{try{c.close()}catch(e){}},400);return}
     net.conns[c.peer]=c;net.pl[c.peer]={n:nm0,s:[0,0,0,0,1,0,0,0],o:clampOut(d.o),ac:{t:0,p:null,v:0,gr:performance.now()+4000,air:0,cm:[],rk:0}};send(c,{t:'w',sv:net.sv,code:net.code,g:net.gid,gn:net.gname,nc:net.gdata?Math.ceil(net.gdata.length/12000):0});sendGame(c);say('',net.pl[c.peer].n+' joined',1);if(L)luaFire('padd',net.pl[c.peer].n)}
    else if(!net.pl[c.peer])return;else if(d.t==='p'&&Array.isArray(d.s)){acState(c,net.pl[c.peer],d)}
-   else if(d.t==='c'){const m=String(d.m).slice(0,120);if(m&&acChat(c,net.pl[c.peer]))say(net.pl[c.peer].n,m)}else if(d.t==='ping')send(c,{t:'pong',ts:d.ts});else if(d.t==='tch'&&W&&L&&Number.isFinite(+d.id))luaFire('ptouch2',+d.id,net.pl[c.peer].n);else if(d.t==='hit')hostHit(c,net.pl[c.peer],d);else if(d.t==='k')creditKill(net.pl[c.peer].n,String(d.by||'').slice(0,16));else if(d.t==='rk'&&W&&Array.isArray(d.o)&&Array.isArray(d.d)&&acRocket(c,net.pl[c.peer],d.o)){const o=new V3(...d.o.map(Number)),dr=new V3(...d.d.map(Number)).normalize(),by=net.pl[c.peer].n;spawnRocket(o,dr,by);for(const id in net.conns)if(id!==c.peer)send(net.conns[id],{t:'rk',o:d.o,d:d.d,by})}});
+   else if(d.t==='c'){const m=String(d.m).slice(0,120);if(m&&v13Swear(m)){send(c,{t:'kick',ban:1});setTimeout(()=>{try{c.close()}catch(e){}},50)}else if(m&&acChat(c,net.pl[c.peer]))say(net.pl[c.peer].n,m)}else if(d.t==='ping')send(c,{t:'pong',ts:d.ts});else if(d.t==='tch'&&W&&L&&Number.isFinite(+d.id))luaFire('ptouch2',+d.id,net.pl[c.peer].n);else if(d.t==='hit')hostHit(c,net.pl[c.peer],d);else if(d.t==='k')creditKill(net.pl[c.peer].n,String(d.by||'').slice(0,16));else if(d.t==='rk'&&W&&Array.isArray(d.o)&&Array.isArray(d.d)&&acRocket(c,net.pl[c.peer],d.o)){const o=new V3(...d.o.map(Number)),dr=new V3(...d.d.map(Number)).normalize(),by=net.pl[c.peer].n;spawnRocket(o,dr,by);for(const id in net.conns)if(id!==c.peer)send(net.conns[id],{t:'rk',o:d.o,d:d.d,by})}});
   c.on('close',()=>{const p=net.pl[c.peer];if(p){say('',p.n+' left',1);if(L)luaFire('prem',p.n);delete net.pl[c.peer];delete net.conns[c.peer]}})})}
 function joinRoom(code){code=String(code).toUpperCase().trim();if(!/^[A-Z2-9]{5}$/.test(code))return fail('Enter a 5-character room code');if(typeof Peer==='undefined')return netErr('load');toast('Connecting…');
  const peer=new Peer();net.peer=peer;let ok=false;const to=setTimeout(()=>{if(!ok){leaveNet();netErr('jtimeout')}},12000);
@@ -568,7 +568,7 @@ function joinRoom(code){code=String(code).toUpperCase().trim();if(!/^[A-Z2-9]{5}
     if(gu){net.cg=null;net.gbuf=[];net.gneed=Math.min(300,+d.nc||0);net.gdone=go2;net.gt=setTimeout(()=>{if(!net.cg){leaveNet();netErr('jtimeout')}},20000);if(!net.gneed){leaveNet();netErr('error','empty game')}}else go2()}
    else if(d.t==='gd'&&net.gneed){net.gbuf[d.k|0]=String(d.d);if(net.gbuf.filter(x=>x!==undefined).length>=net.gneed){clearTimeout(net.gt);let g=null;try{g=cleanGame(JSON.parse(net.gbuf.join('')))}catch(e){}if(!g){leaveNet();netErr('error','bad game data')}else{net.cg=g;net.gneed=0;net.gdone()}}}
    else if(d.t==='pf'&&W)applyParts(d.pt)
-   else if(d.t==='kick'){clearTimeout(to);const was=state==='game';leaveNet();if(was)exitGame();errDialog('You were disconnected',String(d.msg||'You were removed from the server.').slice(0,200),+d.code||268)}else if(d.t==='full'){clearTimeout(to);leaveNet();netErr('full')}else if(d.t==='kill'&&!dead)die();else if(d.t==='dmg'&&W)hurt(Math.max(0,Math.min(100,+d.d||0)),String(d.by||'?').slice(0,16));else if(d.t==='tp'&&Array.isArray(d.p)&&d.p.every(Number.isFinite)){pb.c.set(d.p[0],d.p[1]+2.6,d.p[2]);pb.v.set(0,0,0)}
+   else if(d.t==='kick'){clearTimeout(to);if(d.ban)v13Ban();const was=state==='game';leaveNet();if(was)exitGame();errDialog('You were disconnected',String(d.msg||'You were removed from the server.').slice(0,200),+d.code||268)}else if(d.t==='full'){clearTimeout(to);leaveNet();netErr('full')}else if(d.t==='kill'&&!dead)die();else if(d.t==='dmg'&&W)hurt(Math.max(0,Math.min(100,+d.d||0)),String(d.by||'?').slice(0,16));else if(d.t==='tp'&&Array.isArray(d.p)&&d.p.every(Number.isFinite)){pb.c.set(d.p[0],d.p[1]+2.6,d.p[2]);pb.v.set(0,0,0)}
    else if(d.t==='s'&&d.p){applySnap(d.p);if(Array.isArray(d.pt))applyParts(d.pt);if(d.ks&&typeof d.ks==='object')net.kills=d.ks;if(Array.isArray(d.cr))d.cr.forEach((a,i)=>{if(crates[i]&&Array.isArray(a))crates[i].tg=a})}
    else if(d.t==='c')chat(String(d.n||''),String(d.m||'').slice(0,120),d.s);else if(d.t==='pong')net.ping=Math.round(performance.now()-d.ts);else if(d.t==='rk'&&W&&Array.isArray(d.o)&&Array.isArray(d.d))spawnRocket(new V3(...d.o.map(Number)),new V3(...d.d.map(Number)).normalize(),String(d.by||'?').slice(0,16))});
   c.on('close',()=>{if(state==='game'&&net.m==='client'){const lc=net.code;exitGame();errDialog('Disconnected','You lost connection to the server. Please check your internet connection and try again.',277,{re:()=>joinRoom(lc)})}})})}
@@ -649,7 +649,7 @@ const PAGES={
  people(el){const F=LS.get('lyd_seen',[]);el.innerHTML='<div class="hd2"><span>Friends ('+F.length+')</span></div><div class="fcard" id="fr" style="flex-wrap:wrap"></div>';if(!F.length)$('fr').textContent='Meet people in servers and they will appear here.';F.forEach(f=>$('fr').append(friendEl(f)))},
  news(el){el.innerHTML='<div class="hd2"><span>News</span></div><div class="fcard" style="display:block;line-height:1.7"><b>Studio v2</b><div>Roblox-style Toolbox, Explorer, Properties, terrain and animation editors, plus a Roblox-compatible Lua API.</div><b style="display:block;margin-top:10px">Crossroads</b><div>Rocket launchers, destructible buildings and a city to blast.</div><b style="display:block;margin-top:10px">Safer servers</b><div>Anti-cheat on every server and one login per account.</div></div>'},
  inventory(el){el.innerHTML='<div class="hd2"><span>Inventory</span></div><div class="fcard" id="iv" style="flex-wrap:wrap"></div>';CATS.forEach(([n,names,slot])=>{const d=document.createElement('div');d.className='fr';const im=new Image();im.src=itemImg(slot,OUT[slot]);im.style.height='96px';const sp=document.createElement('span');sp.textContent=n+': '+names[OUT[slot]];d.append(im,sp);$('iv').append(d)})},
- trade(el){soonPage(el,'Trade')},groups(el){soonPage(el,'Groups')},forum(el){soonPage(el,'Forum')},
+ trade(el){soonPage(el,'Trade')},groups(el){v13Groups(el)},forum(el){v13Forum(el)},
  avatar(el){PAGES.catalog(el)},
  catalog(el){el.innerHTML='<div class="glass" style="max-width:500px"><div class="sec">Avatar Catalog</div><div id="ctabs" class="row2" style="gap:6px;margin-bottom:12px"></div><div id="cgrid" class="row2" style="gap:10px"></div></div>';
   CATS.forEach((c,k)=>{const b=document.createElement('button');b.className='btn g'+(k===catTab?' on':'');b.textContent=c[0];b.onclick=()=>{catTab=k;go('catalog')};$('ctabs').append(b)});
@@ -1450,9 +1450,9 @@ const V12API={add:(l,n)=>insertModelParts(l,n||'Plugin'),part:V12S,parts:()=>SP.
 function v12Run(code,name){try{new Function('studio',code)(V12API);v12Toast('Ran '+name)}catch(e){v12Toast(name+': '+e.message)}}
 const v12Plugins=()=>LS.get('lyd_plugins',[]);
 function v12Theme(){const t=LS.get('lyd_theme','dark'),e=document.getElementById('studio');if(!e)return;e.classList.remove('th-light','th-midnight','th-contrast');if(t!=='dark')e.classList.add('th-'+t)}
-const v12Keys=()=>{const r=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(/^lyd|lardovar/i.test(k)&&!/sess|claim/i.test(k))r.push(k)}return r};
+const v12Keys=()=>{const r=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(/^lyd|lardovar/i.test(k)&&!/sess|claim|ban/i.test(k))r.push(k)}return r};
 function v12Backup(){const o={};v12Keys().forEach(k=>o[k]=localStorage.getItem(k));const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({lardovar:1,t:Date.now(),data:o})],{type:'application/json'}));a.download='lardovar-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();v12Toast('Backed up '+Object.keys(o).length+' items')}
-function v12Restore(){const f=document.createElement('input');f.type='file';f.accept='.json';f.onchange=()=>{const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);if(!j||!j.lardovar||typeof j.data!=='object')throw 0;let n=0;for(const k in j.data)if(/^lyd|lardovar/i.test(k)&&!/sess|claim/i.test(k)&&typeof j.data[k]==='string'){localStorage.setItem(k,j.data[k]);n++}v12Toast('Restored '+n+' items, reloading');setTimeout(()=>location.reload(),900)}catch(e){v12Toast('Not a Lardovar backup file')}};r.readAsText(f.files[0])};f.click()}
+function v12Restore(){const f=document.createElement('input');f.type='file';f.accept='.json';f.onchange=()=>{const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);if(!j||!j.lardovar||typeof j.data!=='object')throw 0;let n=0;for(const k in j.data)if(/^lyd|lardovar/i.test(k)&&!/sess|claim|ban/i.test(k)&&typeof j.data[k]==='string'){localStorage.setItem(k,j.data[k]);n++}v12Toast('Restored '+n+' items, reloading');setTimeout(()=>location.reload(),900)}catch(e){v12Toast('Not a Lardovar backup file')}};r.readAsText(f.files[0])};f.click()}
 function v12New(){const o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:#000a;z-index:99998;display:flex;align-items:center;justify-content:center';const b=document.createElement('div');b.style.cssText='background:#1e2230;color:#fff;border-radius:10px;padding:14px;width:min(640px,92vw);font:13px sans-serif';const nm=document.createElement('input');nm.value='My Plugin';nm.style.cssText='width:100%;margin-bottom:8px';const ta=document.createElement('textarea');ta.spellcheck=false;ta.value='// studio.add(parts, name) places parts. Helpers: studio.part(kind,name,[x,y,z],[w,h,d],"#hex"), studio.rand(a,b), studio.selection(), studio.parts()\nconst out=[];\nfor(let i=0;i<10;i++)out.push(studio.part("block","Step",[i*4,.5+i,0],[4,1,4],"#ff8800"));\nstudio.add(out,"My Plugin");';ta.style.cssText='width:100%;height:260px;font:12px monospace;background:#12151e;color:#dfe6ff';const row=document.createElement('div');row.style.cssText='display:flex;gap:6px;justify-content:flex-end;margin-top:8px';const bt=(t,f)=>{const x=document.createElement('button');x.className='btn';x.textContent=t;x.onclick=f;return x};row.append(bt('Test run',()=>v12Run(ta.value,nm.value)),bt('Save',()=>{const L=v12Plugins();L.push({n:nm.value||'Plugin',code:ta.value});LS.set('lyd_plugins',L);v12Fill();o.remove()}),bt('Cancel',()=>o.remove()));b.append(nm,ta,row);o.append(b);document.body.append(o)}
 function v12Fill(){const root=document.getElementById('v12pane');if(!root)return;root.replaceChildren();root.style.cssText='display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;padding:4px 8px;overflow:auto';const bt=(t,f)=>{const x=document.createElement('button');x.className='btn';x.textContent=t;x.onclick=f;return x};const grp=(t,w)=>{const g=document.createElement('div');g.style.cssText='display:flex;gap:4px;align-items:flex-start;flex-wrap:wrap;max-width:'+(w||180)+'px';const h=document.createElement('div');h.textContent=t;h.style.cssText='flex-basis:100%;font:600 11px sans-serif;opacity:.7';g.append(h);root.append(g);return g};
 const g1=grp('Model generators (also in Toolbox > Models)',340);for(const n in V12G)g1.append(bt(n,()=>{V12API.add(V12G[n](),n);v12Toast('Added '+n)}));
@@ -1480,6 +1480,158 @@ if(pr[k]&&!(/["']/.test(k)&&/\w/.test(ta.value[ta.selectionStart-1]||''))){e.pre
 ta.addEventListener('input',()=>{suggest();check()});ta.addEventListener('keyup',check);ta.addEventListener('click',check);ta.addEventListener('focus',check)})();
 if(location.protocol==='http:'&&!/^(localhost|127\.|\[::1\])/.test(location.hostname))location.replace('https://'+location.host+location.pathname+location.search+location.hash);
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+// ---------- v13: groups, forum, chat filter + 1h ban, Battlegrounds template
+const v13e=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const v13ago=t=>{const m=Math.floor((Date.now()-t)/60000);return m<1?'just now':m<60?m+' min ago':m<1440?Math.floor(m/60)+' h ago':Math.floor(m/1440)+' d ago'};
+const v13uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const v13me=()=>(typeof me!=='undefined'&&me&&me.name)||'Guest';
+function v13Swear(t){const L={'@':'a','4':'a','0':'o','1':'i','3':'e','$':'s','5':'s','7':'t'};const w=String(t).toLowerCase().replace(/[@4013$57]/g,c=>L[c]).replace(/[^a-z\s]/g,'').split(/\s+/).filter(Boolean),j=[];let run='';
+for(const k of w){if(k.length===1)run+=k;else{if(run){j.push(run);run=''}j.push(k)}}if(run)j.push(run);
+const stems=['fuck','shit','bitch','cunt','whore','slut','nigg','fagg','asshole','dickhead','bastard','pussy','retard','wank','twat'],exact=['ass','dick','piss','fck','fuk','sht'],rep=x=>x.replace(/(.)\1+/g,'$1');
+return j.some(k=>{const r=rep(k);return exact.includes(k)||exact.includes(r)||stems.some(x=>k.startsWith(x)||r.startsWith(rep(x)))})}
+function v13Banned(){let u=0;try{u=(LS.get('lyd_ban',null)||{}).until||0}catch(e){}const m=/(?:^|; )lyd_ban=(\d+)/.exec(document.cookie);if(m)u=Math.max(u,+m[1]);return u>Date.now()?u:0}
+function v13Overlay(){let o=document.getElementById('v13ban');const u=v13Banned();if(!u){if(o)o.remove();return}if(!o){o=document.createElement('div');o.id='v13ban';o.style.cssText='position:fixed;inset:0;z-index:2147483000;background:#0b0d14;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font:16px sans-serif;text-align:center;padding:20px';document.body.append(o)}const s=Math.ceil((u-Date.now())/1000);o.innerHTML='<h1 style="margin:0 0 10px">You are banned</h1><p>Swearing in chat is not allowed.<br>This device is banned from Lardovar for '+Math.floor(s/60)+' min '+s%60+' s.</p>'}
+function v13Ban(){const u=Date.now()+3600000;LS.set('lyd_ban',{until:u});document.cookie='lyd_ban='+u+';max-age=3600;path=/;SameSite=Lax';try{leaveNet()}catch(e){}try{if(state==='game')exitGame()}catch(e){}v13Overlay()}
+setInterval(v13Overlay,1000);v13Overlay();
+const v13bad=(...x)=>x.some(v13Swear);
+function v13Groups(el,gid){const G=LS.get('lyd_groups',[]),u=v13me(),save=()=>LS.set('lyd_groups',G),g=gid&&G.find(x=>x.id===gid),card='class="fcard" style="display:block;padding:8px;margin:4px 0"';
+if(g){const mem=g.members.includes(u);el.innerHTML=`<div class="hd2"><span>${v13e(g.name)}</span></div><div class="glass" style="max-width:720px;margin:8px 0"><div class="mut">${v13e(g.desc||'No description')}</div><div style="margin:8px 0">Owner: <b>${v13e(g.owner)}</b> &middot; ${g.members.length} member(s): ${g.members.map(v13e).join(', ')}</div><button class="btn" data-a="back">Back</button> ${g.owner===u?'<button class="btn" data-a="del">Delete group</button>':`<button class="btn g" data-a="join">${mem?'Leave':'Join'}</button>`}</div><div class="glass" style="max-width:720px"><div class="sec">Group wall</div>${mem?'<input id="gp_t" maxlength="200" placeholder="Write on the wall" style="width:70%"> <button class="btn g" data-a="post">Post</button>':'<div class="mut">Join to post.</div>'}<div style="margin-top:8px">${g.wall.slice().reverse().map(w=>`<div ${card}><b>${v13e(w.u)}</b> <span class="mut">${v13ago(w.ts)}</span><div>${v13e(w.t)}</div></div>`).join('')||'<div class="mut">No posts yet.</div>'}</div></div>`;
+el.onclick=e=>{const a=(e.target.closest('[data-a]')||{dataset:{}}).dataset.a;if(a==='back')v13Groups(el);else if(a==='join'){if(mem)g.members.splice(g.members.indexOf(u),1);else g.members.push(u);save();v13Groups(el,gid)}else if(a==='del'){G.splice(G.indexOf(g),1);save();v13Groups(el)}else if(a==='post'){const x=el.querySelector('#gp_t').value.trim();if(!x)return;if(v13bad(x))return v12Toast('Blocked: no swearing');g.wall.push({u,t:x.slice(0,200),ts:Date.now()});save();v13Groups(el,gid)}};return}
+el.innerHTML=`<div class="hd2"><span>Groups</span></div><div class="glass" style="max-width:720px;margin:8px 0"><div class="sec">Create a group</div><input id="gp_n" maxlength="30" placeholder="Group name" style="width:40%"> <input id="gp_d" maxlength="120" placeholder="Description" style="width:40%"> <button class="btn g" data-a="new">Create</button><div class="mut" style="margin-top:6px">Groups are saved in this browser (no server yet).</div></div><div class="glass" style="max-width:720px">${G.map(x=>`<div ${card} data-a="open" data-id="${v13e(x.id)}" style="cursor:pointer;display:block;padding:8px;margin:4px 0"><b>${v13e(x.name)}</b> <span class="mut">${x.members.length} member(s) &middot; owner ${v13e(x.owner)}</span><div>${v13e(x.desc||'')}</div></div>`).join('')||'<div class="mut">No groups yet. Create the first one!</div>'}</div>`;
+el.onclick=e=>{const b=e.target.closest('[data-a]');if(!b)return;if(b.dataset.a==='open')v13Groups(el,b.dataset.id);else if(b.dataset.a==='new'){const n=el.querySelector('#gp_n').value.trim(),d=el.querySelector('#gp_d').value.trim();if(n.length<3)return v12Toast('Name needs 3+ characters');if(v13bad(n,d))return v12Toast('Blocked: no swearing');if(G.some(x=>x.name.toLowerCase()===n.toLowerCase()))return v12Toast('That name is taken');G.push({id:v13uid(),name:n,desc:d,owner:u,members:[u],wall:[]});save();v13Groups(el)}}}
+function v13Forum(el,tid){const F=LS.get('lyd_forum',[]),u=v13me(),save=()=>LS.set('lyd_forum',F),cats=['General','Games','Studio Help','Trading','Off-topic'],t=tid&&F.find(x=>x.id===tid),card='class="fcard" style="display:block;padding:8px;margin:4px 0"';
+if(t){el.innerHTML=`<div class="hd2"><span>${v13e(t.title)}</span></div><div class="glass" style="max-width:760px;margin:8px 0"><div class="mut">${v13e(t.cat)} &middot; by <b>${v13e(t.u)}</b> &middot; ${v13ago(t.ts)}</div><p style="white-space:pre-wrap">${v13e(t.body)}</p><button class="btn" data-a="back">Back</button>${t.u===u?' <button class="btn" data-a="del">Delete</button>':''}</div><div class="glass" style="max-width:760px"><div class="sec">${t.replies.length} repl${t.replies.length===1?'y':'ies'}</div>${t.replies.map(r=>`<div ${card}><b>${v13e(r.u)}</b> <span class="mut">${v13ago(r.ts)}</span><div style="white-space:pre-wrap">${v13e(r.t)}</div></div>`).join('')}<textarea id="fm_r" maxlength="500" rows="3" style="width:100%;margin-top:8px" placeholder="Write a reply"></textarea><button class="btn g" data-a="reply">Reply</button></div>`;
+el.onclick=e=>{const a=(e.target.closest('[data-a]')||{dataset:{}}).dataset.a;if(a==='back')v13Forum(el);else if(a==='del'){F.splice(F.indexOf(t),1);save();v13Forum(el)}else if(a==='reply'){const x=el.querySelector('#fm_r').value.trim();if(!x)return;if(v13bad(x))return v12Toast('Blocked: no swearing');t.replies.push({u,t:x.slice(0,500),ts:Date.now()});save();v13Forum(el,tid)}};return}
+el.innerHTML=`<div class="hd2"><span>Forum</span></div><div class="glass" style="max-width:760px;margin:8px 0"><div class="sec">New post</div><input id="fm_t" maxlength="80" placeholder="Title" style="width:55%"> <select id="fm_c">${cats.map(c=>`<option>${c}</option>`).join('')}</select><textarea id="fm_b" maxlength="1000" rows="4" style="width:100%;margin:6px 0" placeholder="What do you want to say?"></textarea><button class="btn g" data-a="new">Post</button><div class="mut" style="margin-top:6px">Posts are saved in this browser (no server yet).</div></div><div class="glass" style="max-width:760px">${F.slice().reverse().map(x=>`<div ${card} data-a="open" data-id="${v13e(x.id)}" style="cursor:pointer;display:block;padding:8px;margin:4px 0"><b>${v13e(x.title)}</b> <span class="mut">${v13e(x.cat)} &middot; ${v13e(x.u)} &middot; ${v13ago(x.ts)} &middot; ${x.replies.length} repl${x.replies.length===1?'y':'ies'}</span></div>`).join('')||'<div class="mut">No posts yet. Start the first thread!</div>'}</div>`;
+el.onclick=e=>{const b=e.target.closest('[data-a]');if(!b)return;if(b.dataset.a==='open')v13Forum(el,b.dataset.id);else if(b.dataset.a==='new'){const ti=el.querySelector('#fm_t').value.trim(),bo=el.querySelector('#fm_b').value.trim();if(ti.length<3||!bo)return v12Toast('Add a title and a message');if(v13bad(ti,bo))return v12Toast('Blocked: no swearing');F.push({id:v13uid(),title:ti,cat:el.querySelector('#fm_c').value,body:bo.slice(0,1000),u,ts:Date.now(),replies:[]});save();v13Forum(el)}}}
+const BG_LUA=`local Players=game:GetService("Players")
+local UIS=game:GetService("UserInputService")
+local RS=game:GetService("RunService")
+local lp=Players.LocalPlayer
+local SK={{key="Z",name="Gravity Pull",cd=4,dmg=12,range=45},{key="X",name="Repel Blast",cd=6,dmg=18,range=14},{key="C",name="Void Beam",cd=10,dmg=35,range=60},{key="V",name="Dash Strike",cd=5,dmg=10,range=40}}
+local ready={0,0,0,0}
+local meter,awake,awakeEnd=0,false,0
+local tally={}
+local dummyHp={Dummy1=100,Dummy2=100,Dummy3=100}
+local function now() return os.clock() end
+local function dist(ax,ay,az,bx,by,bz) local dx,dy,dz=ax-bx,ay-by,az-bz return math.sqrt(dx*dx+dy*dy+dz*dz) end
+local function targets()
+  local out={}
+  for n,_ in pairs(dummyHp) do
+    local d=workspace:FindFirstChild(n)
+    if d then local p=d.Position out[#out+1]={x=p.X,y=p.Y,z=p.Z,dummy=n} end
+  end
+  for _,pl in ipairs(Players:GetPlayers()) do
+    if pl~=lp and pl.Character then
+      local hrp=pl.Character:FindFirstChild("HumanoidRootPart")
+      if hrp then local p=hrp.Position out[#out+1]={x=p.X,y=p.Y,z=p.Z,player=pl} end
+    end
+  end
+  return out
+end
+local function fx(x,y,z,s,c,t)
+  local p=Instance.new("Part")
+  p.Anchored=true
+  p.Size=Vector3.new(s,s,s)
+  p.Position=Vector3.new(x,y,z)
+  p.Color=Color3.fromRGB(c[1],c[2],c[3])
+  p.Transparency=0.4
+  p.Parent=workspace
+  task.delay(t,function() p:Destroy() end)
+end
+local function hit(t,d)
+  d=d*(awake and 1.6 or 1)
+  meter=math.min(100,meter+d*0.6)
+  if t.dummy then
+    dummyHp[t.dummy]=dummyHp[t.dummy]-d
+    if dummyHp[t.dummy]<=0 then dummyHp[t.dummy]=100 say(t.dummy.." defeated") end
+  elseif t.player then
+    local k=t.player.Name
+    tally[k]=(tally[k] or 0)+d
+    if tally[k]>=100 then
+      tally[k]=0
+      local h=t.player.Character:FindFirstChild("Humanoid")
+      if h then h.Health=0 end
+      say(k.." was knocked out by "..lp.Name)
+    end
+  end
+end
+local function cast(i)
+  local sk=SK[i]
+  local t0=now()
+  if t0<ready[i] then return end
+  local x,y,z=playerPos()
+  local cm=awake and 0.5 or 1
+  if i==2 then
+    ready[i]=t0+sk.cd*cm
+    emote(3)
+    fx(x,y+1,z,sk.range*2,{255,80,80},0.35)
+    for _,t in ipairs(targets()) do if dist(x,y,z,t.x,t.y,t.z)<=sk.range then hit(t,sk.dmg) end end
+    return
+  end
+  local best,bd=nil,sk.range+1
+  for _,t in ipairs(targets()) do
+    local d=dist(x,y,z,t.x,t.y,t.z)
+    if d<bd then best,bd=t,d end
+  end
+  if not best then return end
+  ready[i]=t0+sk.cd*cm
+  if i==1 then
+    fx(best.x,best.y+1,best.z,5,{80,140,255},0.4) emote(4) hit(best,sk.dmg)
+  elseif i==3 then
+    for k=1,8 do local f=k/8 fx(x+(best.x-x)*f,y+1+(best.y-y)*f,z+(best.z-z)*f,2.2,{170,60,255},0.45) end
+    emote(6) hit(best,sk.dmg)
+  else
+    teleport(best.x-3,best.y,best.z) emote(5) hit(best,sk.dmg)
+  end
+end
+local function awaken()
+  if awake or meter<100 then return end
+  awake=true awakeEnd=now()+15 meter=0
+  setSpeed(26) emote(4)
+  say("AWAKENING! Damage x1.6, cooldowns halved for 15s")
+  local x,y,z=playerPos()
+  fx(x,y+2,z,10,{255,220,80},0.6)
+end
+local keymap={Z=1,X=2,C=3,V=4}
+UIS.InputBegan:Connect(function(input,gp)
+  local ok,n=pcall(function() return input.KeyCode.Name end)
+  if not ok or not n then return end
+  if keymap[n] then cast(keymap[n]) elseif n=="R" then awaken() end
+end)
+local gui=Instance.new("ScreenGui")
+local ok=pcall(function() gui.Parent=lp.PlayerGui end)
+if not ok or not gui.Parent then gui.Parent=game:GetService("StarterGui") end
+for i=1,5 do
+  local b=Instance.new("TextButton")
+  b.Size=UDim2.new(0,120,0,40)
+  b.Position=UDim2.new(0.5,-310+(i-1)*124,1,-110)
+  b.Text=(i<5) and (SK[i].key..": "..SK[i].name) or "R: Awaken"
+  b.BackgroundColor3=Color3.fromRGB(40,40,80)
+  b.TextColor3=Color3.fromRGB(255,255,255)
+  b.Parent=gui
+  b.MouseButton1Click:Connect(function() if i<5 then cast(i) else awaken() end end)
+end
+local acc=0
+RS.Heartbeat:Connect(function(dt)
+  acc=acc+dt
+  if acc<0.25 then return end
+  acc=0
+  if awake and now()>awakeEnd then awake=false setSpeed(16) say("Awakening ended") end
+  local t={}
+  for i,sk in ipairs(SK) do
+    local r=ready[i]-now()
+    t[#t+1]=sk.key..":"..sk.name.." "..(r>0 and string.format("%.1fs",r) or "READY")
+  end
+  ui("bg",table.concat(t,"   ").."   |   R Awaken: "..(awake and string.format("ACTIVE %.0fs",awakeEnd-now()) or (math.floor(meter).."%")))
+end)
+`;
+function bgGame(){const P=[],B=(n,p,s,c,k)=>P.push({k:k||'block',n,p,s,c});B('Floor',[0,-1,0],[150,2,150],'#343a46');B('Ring',[0,.05,0],[60,.2,60],'#4b5365');B('Center',[0,.15,0],[14,.3,14],'#6c5ce7');
+[[0,75],[0,-75]].forEach(([x,z],i)=>B('WallZ'+i,[x,6,z],[152,12,2],'#20242d'));[[75,0],[-75,0]].forEach(([x,z],i)=>B('WallX'+i,[x,6,z],[2,12,152],'#20242d'));
+[[-30,-30],[30,-30],[-30,30],[30,30]].forEach(([x,z],i)=>B('Pillar'+i,[x,6,z],[4,12,4],'#8e8aa3'));[[-60,-60],[60,-60],[-60,60],[60,60]].forEach(([x,z],i)=>B('Spawn'+i,[x,.35,z],[8,.5,8],'#2ecc71','spawn'));
+[[-20,3,0],[20,3,0],[0,3,25]].forEach(([x,y,z],i)=>B('Dummy'+(i+1),[x,y,z],[3,6,3],'#e74c3c'));
+return cleanGame({name:'Battlegrounds',parts:P,base:0,tod:19,tools:['sword'],scripts:[{n:'Battlegrounds',cls:'LocalScript',src:BG_LUA}]})}
+TPL.push(['Battlegrounds','s','Arena with 4 skills, awakening, cooldowns and hitboxes. Press Host Server to fight friends.',bgGame]);
 // ---------- boot: face texture// ---------- boot: face texture, screenshot thumbnail, session
 function shot(){const pr=ren.getPixelRatio();ren.setPixelRatio(1);ren.setSize(640,360,false);cam.aspect=16/9;cam.fov=55;cam.updateProjectionMatrix();
  lp.g.position.set(19,.4,7);lp.g.rotation.y=-.32;animate(lp,0,false,false,false,.016,1);cam.position.set(14,6,22);cam.lookAt(21.5,3.5,2);sky.position.copy(cam.position);glow.position.copy(cam.position).addScaledVector(sunDir,420);

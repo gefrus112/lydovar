@@ -61,6 +61,11 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v13: groups, forum, chat filter, Battlegrounds
+- **Groups**: create a group, join / leave, member list, group wall. **Forum**: categories, new threads, replies, delete your own posts. Both are stored in your browser (no server yet) and all text is escaped.
+- **Chat filter**: swearing in chat is blocked and the device is banned from the site for **one hour** (browser storage + cookie; the host also kicks players whose client skips the filter). This is not a true hardware ban: a browser game cannot identify hardware, so clearing site data or using another browser gets around it.
+- **Battlegrounds** (Studio > Welcome > Battlegrounds): an arena with four skills (Gravity Pull, Repel Blast, Void Beam, Dash Strike), an awakening mode (damage x1.6, cooldowns halved, faster), cooldown HUD, range hitboxes, training dummies and the sword. Keys Z X C V R or the on-screen buttons. Press Host Server to fight friends.
+
 ## v12: plugins, themes, smarter script editor, data backup
 - **Plugins tab** (Studio): six model generators (Checker Floor, Tower Stairs, Pillar Ring, Obby Course, Pine Forest, Castle Wall), also listed in Toolbox > Models.
   Write your own plugins in JavaScript with a small `studio` API (`studio.add`, `studio.part`, `studio.rand`, `studio.selection`, `studio.parts`); they are saved in your browser.
