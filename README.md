@@ -61,6 +61,15 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v11: model building, script library, tools, custom-game multiplayer
+- **Studio**: prefab models (House, Tower, Bridge, Grove, Stairs, Fence, Pyramid, Street), multi-select (Shift+click), group / ungroup (Ctrl+G), rotate and duplicate groups,
+  **My Models** (save a selection and reuse it), and a **script library** with 10 ready-made snippets (Kill Brick, Spinner, Teleporter, Coin Counter, Fire Trap, Heal Pad ...).
+- **Tools** (StarterPack): Rocket Launcher, Sword (hits validated by the host), Gravity Coil, Heal Kit, Speed Coil, Jump Coil. Backpack hotbar (keys 1-7) and a pause menu (Esc).
+- **Custom-game multiplayer**: host any Studio game as a server. Joining players download the game in chunks and see parts that scripts move or spawn.
+- **Lua**: `workspace:Raycast`, `Players:GetPlayers()`, remote players' `Character` / `Humanoid.Health`, `PlayerAdded` / `PlayerRemoving` and `Touched` for remote players.
+- Fixed: `Players:GetPlayers()` crashed with a nil `Players`; parts spawned by scripts never appeared for joining players (off-by-one in the part sync packet);
+  the Heal Kit did nothing during the first 15 seconds after page load; removed a duplicate toolbox function.
+
 ## v10: new home, safer servers, better graphics
 - **Home page** redesigned after a modern sky-style layout: avatar banner, nav bar (My Lardovar, Games, Catalog, Develop, Avatar, Inventory, Trade, Groups, Forum, News),
   "Hello" with your headshot, **Friends** (players you met in servers, shown with their real avatars), **Recently Played**, **My Favorites** (star a game), public servers and a Chat & Party bar.

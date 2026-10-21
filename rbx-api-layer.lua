@@ -219,7 +219,7 @@ end
 local nid=1000
 local Methods,Special,GUIS,PARTS,MODS={}, {}, {}, {}, {}
 GUIN={}
-local EVENTS={Touched=1,TouchEnded=1,MouseEnter=1,MouseLeave=1,MouseButton1Click=1,MouseButton1Down=1,MouseButton1Up=1,MouseButton2Click=1,Activated=1,Changed=1,ChildAdded=1,ChildRemoved=1,Died=1,CharacterAdded=1,PlayerAdded=1,InputBegan=1,InputEnded=1,Heartbeat=1,RenderStepped=1,Stepped=1,Completed=1,FocusLost=1,Triggered=1,Chatted=1,Equipped=1,Unequipped=1}
+local EVENTS={Touched=1,TouchEnded=1,MouseEnter=1,MouseLeave=1,MouseButton1Click=1,MouseButton1Down=1,MouseButton1Up=1,MouseButton2Click=1,Activated=1,Changed=1,ChildAdded=1,ChildRemoved=1,Died=1,CharacterAdded=1,PlayerAdded=1,InputBegan=1,InputEnded=1,Heartbeat=1,RenderStepped=1,Stepped=1,Completed=1,FocusLost=1,Triggered=1,Chatted=1,Equipped=1,Unequipped=1,PlayerRemoving=1}
 local GUIC={ScreenGui=1,Frame=1,TextLabel=1,TextButton=1,ImageLabel=1,ImageButton=1,TextBox=1,ScrollingFrame=1,UICorner=1,UIStroke=1,UIListLayout=1,UIPadding=1,UIGradient=1,UIAspectRatioConstraint=1,UIScale=1}
 local FXC={Fire=1,Smoke=1,Sparkles=1,PointLight=1,SpotLight=1,ParticleEmitter=1,Explosion=1}
 local IMT={}
@@ -366,16 +366,28 @@ Special.Part={get=function(t,k)
   if k=="CFrame" then return CFrame.new(t.Position) end
 end}
 Special.CharPart={get=function(t,k)
-  if k=="Position" then return Vector3.new(__player("Position")) elseif k=="CFrame" then return CFrame.new(Vector3.new(__player("Position")))
+  local rn=t._p._rn
+  if k=="Position" or k=="CFrame" then
+    local p
+    if rn then p=Vector3.new(__rpos(rn)) else p=Vector3.new(__player("Position")) end
+    if k=="CFrame" then return CFrame.new(p) end
+    return p
   elseif k=="Size" then return Vector3.new(2,2,1) end
 end,set=function(t,k,v)
-  if k=="Position" then __player("Position",v.X,v.Y,v.Z) return true end
+  if k=="Position" then
+    local rn=t._p._rn
+    if rn then __rtp(rn,v.X,v.Y,v.Z) else __player("Position",v.X,v.Y,v.Z) end
+    return true
+  end
 end}
 Special.Humanoid={get=function(t,k)
-  if k=="Health" then return __player("Health") elseif k=="MaxHealth" then return 100
+  local rn=t._p._rn
+  if k=="Health" then if rn then return 100 end return __player("Health") elseif k=="MaxHealth" then return 100
   elseif k=="WalkSpeed" then return t._p._ws or 16 elseif k=="JumpPower" then return t._p._jp or 50 end
 end,set=function(t,k,v)
-  if k=="Health" then __player("Health",v) return true
+  local rn=t._p._rn
+  if k=="Health" then if rn then if v<=0 then __rkill(rn) end else __player("Health",v) end return true
+  elseif rn then return true
   elseif k=="WalkSpeed" then t._p._ws=v __player("WalkSpeed",v) return true
   elseif k=="JumpPower" then t._p._jp=v __player("JumpPower",v) return true end
 end}
@@ -430,11 +442,21 @@ Methods.GetAttribute=function(self,k) return self._p["@"..k] end
 Methods.TakeDamage=function(self,n) self.Health=self.Health-n end
 Methods.Play=function(self) end
 Methods.Stop=function(self) end
-Methods.Raycast=function() return nil end
+Methods.Raycast=function(self,o,d)
+  local x,y,z,id,nx,ny,nz,t=__ray(o.X,o.Y,o.Z,d.X,d.Y,d.Z)
+  if not x then return nil end
+  local inst=nil
+  if id and id>=0 then inst=PARTS[id] end
+  return {Instance=inst,Position=Vector3.new(x,y,z),Normal=Vector3.new(nx,ny,nz),Distance=t,Material=Enum.Material.Plastic}
+end
 Methods.IsClient=function() return true end
 Methods.IsServer=function() return false end
 Methods.IsStudio=function() return true end
-Methods.GetPlayers=function() return {Methods.FindFirstChild(Methods.GetService(nil,"Players"),"LocalPlayer") or nil} end
+Methods.GetPlayers=function(self)
+  local r={}
+  for _,c in ipairs(SVC.Players._k) do if c._c=="Player" then r[#r+1]=c end end
+  return r
+end
 Methods.AddItem=function(self,item,t) task.delay(t or 10,function() if item then item:Destroy() end end) end
 Methods.IsKeyDown=function(self,code) return KEYS[code and code.Name] or false end
 Methods.GetService=function(self,n) return SVC[n] or (function() local s=mkInst("Service") s._p.Name=n SVC[n]=s return s end)() end
@@ -508,6 +530,17 @@ function __runscript(name,cls,src,pref)
   if not f then print("["..name.."] "..tostring(err)) return end
   spawn(f)
 end
+local RCH={}
+local function mkRemote(name)
+  if RCH[name] then return end
+  local p=mkInst("Player") p._p.Name=name p._p.UserId=2 p._par=Players Players._k[#Players._k+1]=p
+  local ch=mkInst("Model") ch._p.Name=name
+  local hm=mkInst("Humanoid") hm._p.Name="Humanoid" hm._p._rn=name hm._par=ch ch._k[#ch._k+1]=hm
+  local hr=mkInst("CharPart") hr._p.Name="HumanoidRootPart" hr._p._rn=name hr._par=ch ch._k[#ch._k+1]=hr
+  local hd=mkInst("CharPart") hd._p.Name="Head" hd._p._rn=name hd._par=ch ch._k[#ch._k+1]=hd
+  p._p.Character=ch RCH[name]={p=p,ch=ch,hr=hr}
+  Players.PlayerAdded:Fire(p)
+end
 function __fire(e,a,b,c)
   if e=="update" then
     TIME=TIME+a stepWaiters() stepTweens(a)
@@ -515,6 +548,9 @@ function __fire(e,a,b,c)
     fireOn("update",a)
   elseif e=="start" then
     fireOn("start") Players.PlayerAdded:Fire(player) player.CharacterAdded:Fire(char)
+  elseif e=="padd" then mkRemote(a)
+  elseif e=="prem" then local r=RCH[a] if r then Players.PlayerRemoving:Fire(r.p) removeFrom(Players._k,r.p) RCH[a]=nil end
+  elseif e=="ptouch2" then local r=RCH[b] local p=PARTS[a] if p and r then p.Touched:Fire(r.hr) end
   elseif e=="touch" then fireOn("touch",a)
   elseif e=="ptouch" then local p=PARTS[a] if p then p.Touched:Fire(hrp) end
   elseif e=="gui" then local g=GUIS[a] if g then local s=g._sig[b] if s then s:Fire() end end
