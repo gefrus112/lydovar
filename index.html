@@ -326,7 +326,7 @@ const SHIRTS=[{n:'Hi-Vis Vest',k:'v',c:[ORANGE,SILVER]},{n:'Blue Hoodie',k:'h',c
  {n:'Camo Jacket',k:'c',c:['#4b5d3a','#2f3b24']},{n:'Pink Hoodie',k:'h',c:['#e64980','#ffe3ef']},{n:'Flannel',k:'p',c:['#c92a2a','#212529']},{n:'Racing Jacket',k:'r',c:['#1c7ed6','#ffffff']},{n:'Space Suit',k:'x',c:['#f1f3f5','#adb5bd']}];
 const PANTS=[{n:'Work Pants',c:'#2f343d',s:SILVER},{n:'Blue Jeans',c:'#2b4a8c'},{n:'Khaki',c:'#b99b6b'},{n:'Track Red',c:'#c92a2a',s:'#fff'},{n:'Black',c:'#15171c'},{n:'Purple',c:'#6741d9'},{n:'White',c:'#e9ecef'},{n:'Olive',c:'#556b2f',s:'#3b4a1f'}];
 const FACES=['Smirk','Smile','Cool','Angry','Derp','Wink','Blush','Surprised','Sleepy','Cat','Robot','Vampire'],HATS=['None','Traffic Cone','Top Hat','Crown','Cap','Halo','Beanie','Cowboy','Wizard','Bunny Ears','Headphones'],BACKS=['None','Skateboard','Backpack','Cape','Wings','Jetpack','Surfboard'];
-const clampOut=o=>Array.from({length:7},(_,i)=>Math.max(0,Math.min(Number.isInteger(o&&o[i])?o[i]:0,[17,13,17,14,9,7,7][i])));
+const clampOut=o=>Array.from({length:7},(_,i)=>Math.max(0,Math.min(Number.isInteger(o&&o[i])?o[i]:0,[17,13,17,15,9,7,7][i])));
 const OUT=clampOut(LS.get('lyd_out',null)||[0,0,0,1,1,1,0]);
 const faceC=document.createElement('canvas');faceC.width=faceC.height=256;const fg=faceC.getContext('2d');fg.fillStyle='#fff';fg.fillRect(0,0,256,256);
 const faceT=new THREE.CanvasTexture(faceC);faceT.anisotropy=4;faceT.encoding=THREE.sRGBEncoding;
@@ -1632,6 +1632,15 @@ function bgGame(){const P=[],B=(n,p,s,c,k)=>P.push({k:k||'block',n,p,s,c});B('Fl
 [[-20,3,0],[20,3,0],[0,3,25]].forEach(([x,y,z],i)=>B('Dummy'+(i+1),[x,y,z],[3,6,3],'#e74c3c'));
 return cleanGame({name:'Battlegrounds',parts:P,base:0,tod:19,tools:['sword'],scripts:[{n:'Battlegrounds',cls:'LocalScript',src:BG_LUA}]})}
 TPL.push(['Battlegrounds','s','Arena with 4 skills, awakening, cooldowns and hitboxes. Press Host Server to fight friends.',bgGame]);
+// ---------- v14: Dominus hat + outlined avatars
+HATS.push('Dominus');HATB.push(()=>{const g=G0(),dark=new THREE.MeshStandardMaterial({color:0x2b0b0e,metalness:.7,roughness:.35,emissive:0x330000}),glow=new THREE.MeshStandardMaterial({color:0xff2a14,emissive:0xff2200,emissiveIntensity:1.1,metalness:.3,roughness:.4}),gold=new THREE.MeshStandardMaterial({color:0xffc83d,metalness:.9,roughness:.25});
+g.add(M(CY(.7,.66,.26,20),dark,0,.18,0));
+for(let i=0;i<7;i++){const a=i/7*Math.PI*2,h=i%2?.7:1.05,c=M(new THREE.ConeGeometry(.12,h,6),i%2?gold:glow,Math.cos(a)*.56,.3+h/2,Math.sin(a)*.56);c.rotation.z=Math.cos(a)*-.18;c.rotation.x=Math.sin(a)*.18;g.add(c)}
+g.add(M(new THREE.OctahedronGeometry(.17),glow,0,.34,.68));
+const r=M(new THREE.TorusGeometry(.5,.035,8,28),new THREE.MeshBasicMaterial({color:0xff5533}),0,1.55,0);r.rotation.x=Math.PI/2;g.add(r);return g});
+function v14Outline(root){if(!root||!root.traverse||!LS.get('lyd_outline',1))return;const mat=v14Outline.m||(v14Outline.m=new THREE.MeshBasicMaterial({color:0x14161c,side:THREE.BackSide})),list=[];root.traverse(m=>{if(m.isMesh&&m.geometry&&!m.userData.noOutline&&!m.userData.hasOl&&m.material&&!m.material.isMeshBasicMaterial)list.push(m)});for(const m of list){m.userData.hasOl=true;const ol=new THREE.Mesh(m.geometry,mat);ol.scale.setScalar(1.07);ol.userData.noOutline=true;ol.raycast=()=>{};m.add(ol)}}
+const _outfit=outfit;outfit=function(a,o){const r=_outfit(a,o);v14Outline(a&&a.g);return r};
+const _mkAv=mkAvatar;mkAvatar=function(name,o){const a=_mkAv(name,o);v14Outline(a&&a.g);return a};
 // ---------- boot: face texture// ---------- boot: face texture, screenshot thumbnail, session
 function shot(){const pr=ren.getPixelRatio();ren.setPixelRatio(1);ren.setSize(640,360,false);cam.aspect=16/9;cam.fov=55;cam.updateProjectionMatrix();
  lp.g.position.set(19,.4,7);lp.g.rotation.y=-.32;animate(lp,0,false,false,false,.016,1);cam.position.set(14,6,22);cam.lookAt(21.5,3.5,2);sky.position.copy(cam.position);glow.position.copy(cam.position).addScaledVector(sunDir,420);

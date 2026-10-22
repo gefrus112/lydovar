@@ -61,6 +61,10 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v14: Dominus hat, outlined avatars
+- New hat **Dominus**: a dark spiked crown with glowing red spikes, a gem and a floating ring (Catalog > Hats).
+- Avatars now get a cartoon-style outline on their solid parts, including after you change outfit. Turn it off by setting `lyd_outline` to `0` in local storage.
+
 ## v13: groups, forum, chat filter, Battlegrounds
 - **Groups**: create a group, join / leave, member list, group wall. **Forum**: categories, new threads, replies, delete your own posts. Both are stored in your browser (no server yet) and all text is escaped.
 - **Chat filter**: swearing in chat is blocked and the device is banned from the site for **one hour** (browser storage + cookie; the host also kicks players whose client skips the filter). This is not a true hardware ban: a browser game cannot identify hardware, so clearing site data or using another browser gets around it.
