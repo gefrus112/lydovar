@@ -61,6 +61,13 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v16: body types, group icons, Safe Chat, new home page, GUI drag
+- **Avatars**: cartoon proportions (bigger head) and a **Male / Female** body type (Settings). The body type shows on your own avatar; other players still see the default body.
+- **Groups**: owners can upload a group icon (PNG, GIF, JPG or WebP; the real file type is checked, SVG is rejected; GIFs up to about 250 KB, big PNG/JPG are shrunk) and edit the description. Icons show in the group list and on the group page.
+- **Safe Chat**: Settings > Safe chat limits chat to a menu of friendly phrases. The swearing filter and one-hour ban still apply to normal chat.
+- **Home page**: welcome banner with your coins and the shop restock timer, plus quick buttons (Play Battlegrounds, Open Studio, Daily Shop, Groups, Forum, Settings).
+- **UI editor**: click a GUI element on the preview to select it, drag it to move it, or drag its bottom-right corner to resize it.
+
 ## v15: exit fix, coins and daily shop, themes and settings, Studio Assistant, server search
 - **Fixed**: leaving a game left the backpack, health bar, pause menu, fire button and script-drawn GUIs on screen. They are now cleared.
 - **Coins**: 100 to start, +50 daily login bonus, +2 every 20 seconds in a game. **Daily Shop** (Catalog): limited-edition hats with FREE / price tags, three COMING SOON items and a restock countdown (new picks every UTC day). Catalog and pages now scroll.
