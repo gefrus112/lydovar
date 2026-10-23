@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><title>Lardovar</title>
+<html lang="en"><head><meta name="lardovar-build" content="v19"><meta charset="utf-8"><title>Lardovar</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHBvbHlnb24gcG9pbnRzPSIzMiw1IDU4LDE5IDMyLDMzIDYsMTkiIGZpbGw9IiM3Y2M0ZmYiLz48cG9seWdvbiBwb2ludHM9IjYsMTkgMzIsMzMgMzIsNjEgNiw0NyIgZmlsbD0iIzJhOGNmZiIvPjxwb2x5Z29uIHBvaW50cz0iMzIsMzMgNTgsMTkgNTgsNDcgMzIsNjEiIGZpbGw9IiMxYTYzYzciLz48ZWxsaXBzZSBjeD0iMTMuMyIgY3k9IjMzLjQiIHJ4PSIyIiByeT0iMy4yIiBmaWxsPSIjMGIxZjNhIiB0cmFuc2Zvcm09InJvdGF0ZSgyNiAxMy4zIDMzLjQpIi8+PGVsbGlwc2UgY3g9IjI0LjciIGN5PSIzOS4zIiByeD0iMiIgcnk9IjMuMiIgZmlsbD0iIzBiMWYzYSIgdHJhbnNmb3JtPSJyb3RhdGUoMjYgMjQuNyAzOS4zKSIvPjxwYXRoIGQ9Ik0xMy42IDQxLjNRMTkgNDcuNiAyNC40IDQ0LjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzBiMWYzYSIgc3Ryb2tlLXdpZHRoPSIyLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>
@@ -1902,6 +1902,10 @@ const T=m.querySelector('#v17t'),G=m.querySelector('#v17g');[['dark','Dark'],['l
 setInterval(()=>{b.style.display=state==='studio'?'block':'none';if(state!=='studio'){const m=document.getElementById('v17m');if(m)m.remove()}},500)})();
 const _rep=v15Reply;v15Reply=function(q){if(/vfx|explosion|beam|particle|impact|energy wave|ki blast|slash/i.test(q)){insertSnip(V17SN);return 'Inserted the VFX Pack: explosion, beam, energy wave, floating particles, impact frames and an anime slash. Press Play, then keys 1-6 (or the buttons) to preview them. Edit the LocalScript to change colours and sizes.'}return _rep(q)};
 v17Gfx();
+// ---------- v19: update checker
+function v19Banner(b){if(document.getElementById('v19up'))return;const d=document.createElement('div');d.id='v19up';d.style.cssText='position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:2147482000;background:#1fa971;color:#fff;padding:10px 16px;border-radius:12px;font:600 14px sans-serif;box-shadow:0 4px 18px #0006';d.append('A new version is available. ');const bt=document.createElement('button');bt.textContent='Update now';bt.style.cssText='margin-left:8px;border:0;border-radius:8px;padding:4px 10px;font-weight:700;cursor:pointer';bt.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(b)+location.hash);d.append(bt);document.body.append(d)}
+function v19Check(){const cur=(document.querySelector('meta[name=lardovar-build]')||{}).content;if(!cur)return Promise.resolve(false);return fetch(location.pathname+'?cb='+Date.now(),{cache:'no-store',headers:{Range:'bytes=0-3000'}}).then(r=>r.text()).then(t=>{const m=/name="lardovar-build" content="([^"]+)"/.exec(t);if(m&&m[1]!==cur){v19Banner(m[1]);return true}return false}).catch(()=>false)}
+setTimeout(v19Check,2500);setInterval(v19Check,300000);
 // ---------- boot: face texture// ---------- boot: face texture, screenshot thumbnail, session
 function shot(){const pr=ren.getPixelRatio();ren.setPixelRatio(1);ren.setSize(640,360,false);cam.aspect=16/9;cam.fov=55;cam.updateProjectionMatrix();
  lp.g.position.set(19,.4,7);lp.g.rotation.y=-.32;animate(lp,0,false,false,false,.016,1);cam.position.set(14,6,22);cam.lookAt(21.5,3.5,2);sky.position.copy(cam.position);glow.position.copy(cam.position).addScaledVector(sunDir,420);

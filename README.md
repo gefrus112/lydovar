@@ -61,6 +61,9 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v19: update checker
+- If a newer version is live, a banner appears at the top with an **Update now** button that bypasses the browser cache. GitHub Pages lets browsers keep a page for up to 10 minutes (longer on some phones), which can leave you on an old build. You can also open the site with `?v=NUMBER` on the end to force a fresh copy.
+
 ## v18: fix "fn is not a function" on load
 - **Fixed**: if your saved outfit had the Dominus hat or a Daily Shop hat, the page crashed on load with `TypeError: fn is not a function`. Those hats were registered after the first avatar was built. The avatar builder now skips an item that is not registered yet (and retries on the next call), and the avatar is rebuilt once everything is loaded, so your hat still shows. Added regression tests that reload with each kind of saved hat.
 
