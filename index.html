@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta name="lardovar-build" content="v19"><meta charset="utf-8"><title>Lardovar</title>
+<html lang="en"><head><meta name="lardovar-build" content="v20"><meta charset="utf-8"><title>Lardovar</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHBvbHlnb24gcG9pbnRzPSIzMiw1IDU4LDE5IDMyLDMzIDYsMTkiIGZpbGw9IiM3Y2M0ZmYiLz48cG9seWdvbiBwb2ludHM9IjYsMTkgMzIsMzMgMzIsNjEgNiw0NyIgZmlsbD0iIzJhOGNmZiIvPjxwb2x5Z29uIHBvaW50cz0iMzIsMzMgNTgsMTkgNTgsNDcgMzIsNjEiIGZpbGw9IiMxYTYzYzciLz48ZWxsaXBzZSBjeD0iMTMuMyIgY3k9IjMzLjQiIHJ4PSIyIiByeT0iMy4yIiBmaWxsPSIjMGIxZjNhIiB0cmFuc2Zvcm09InJvdGF0ZSgyNiAxMy4zIDMzLjQpIi8+PGVsbGlwc2UgY3g9IjI0LjciIGN5PSIzOS4zIiByeD0iMiIgcnk9IjMuMiIgZmlsbD0iIzBiMWYzYSIgdHJhbnNmb3JtPSJyb3RhdGUoMjYgMjQuNyAzOS4zKSIvPjxwYXRoIGQ9Ik0xMy42IDQxLjNRMTkgNDcuNiAyNC40IDQ0LjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzBiMWYzYSIgc3Ryb2tlLXdpZHRoPSIyLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>
@@ -326,7 +326,7 @@ const SHIRTS=[{n:'Hi-Vis Vest',k:'v',c:[ORANGE,SILVER]},{n:'Blue Hoodie',k:'h',c
  {n:'Camo Jacket',k:'c',c:['#4b5d3a','#2f3b24']},{n:'Pink Hoodie',k:'h',c:['#e64980','#ffe3ef']},{n:'Flannel',k:'p',c:['#c92a2a','#212529']},{n:'Racing Jacket',k:'r',c:['#1c7ed6','#ffffff']},{n:'Space Suit',k:'x',c:['#f1f3f5','#adb5bd']}];
 const PANTS=[{n:'Work Pants',c:'#2f343d',s:SILVER},{n:'Blue Jeans',c:'#2b4a8c'},{n:'Khaki',c:'#b99b6b'},{n:'Track Red',c:'#c92a2a',s:'#fff'},{n:'Black',c:'#15171c'},{n:'Purple',c:'#6741d9'},{n:'White',c:'#e9ecef'},{n:'Olive',c:'#556b2f',s:'#3b4a1f'}];
 const FACES=['Smirk','Smile','Cool','Angry','Derp','Wink','Blush','Surprised','Sleepy','Cat','Robot','Vampire'],HATS=['None','Traffic Cone','Top Hat','Crown','Cap','Halo','Beanie','Cowboy','Wizard','Bunny Ears','Headphones'],BACKS=['None','Skateboard','Backpack','Cape','Wings','Jetpack','Surfboard'];
-const clampOut=o=>Array.from({length:7},(_,i)=>Math.max(0,Math.min(Number.isInteger(o&&o[i])?o[i]:0,[17,13,17,23,9,7,7][i])));
+const clampOut=o=>Array.from({length:7},(_,i)=>Math.max(0,Math.min(Number.isInteger(o&&o[i])?o[i]:0,[17,13,23,23,9,7,7][i])));
 const OUT=clampOut(LS.get('lyd_out',null)||[0,0,0,1,1,1,0]);
 const faceC=document.createElement('canvas');faceC.width=faceC.height=256;const fg=faceC.getContext('2d');fg.fillStyle='#fff';fg.fillRect(0,0,256,256);
 const faceT=new THREE.CanvasTexture(faceC);faceT.anisotropy=4;faceT.encoding=THREE.sRGBEncoding;
@@ -1906,6 +1906,207 @@ v17Gfx();
 function v19Banner(b){if(document.getElementById('v19up'))return;const d=document.createElement('div');d.id='v19up';d.style.cssText='position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:2147482000;background:#1fa971;color:#fff;padding:10px 16px;border-radius:12px;font:600 14px sans-serif;box-shadow:0 4px 18px #0006';d.append('A new version is available. ');const bt=document.createElement('button');bt.textContent='Update now';bt.style.cssText='margin-left:8px;border:0;border-radius:8px;padding:4px 10px;font-weight:700;cursor:pointer';bt.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(b)+location.hash);d.append(bt);document.body.append(d)}
 function v19Check(){const cur=(document.querySelector('meta[name=lardovar-build]')||{}).content;if(!cur)return Promise.resolve(false);return fetch(location.pathname+'?cb='+Date.now(),{cache:'no-store',headers:{Range:'bytes=0-3000'}}).then(r=>r.text()).then(t=>{const m=/name="lardovar-build" content="([^"]+)"/.exec(t);if(m&&m[1]!==cur){v19Banner(m[1]);return true}return false}).catch(()=>false)}
 setTimeout(v19Check,2500);setInterval(v19Check,300000);
+// ---------- v20: new faces, models, VFX Pack 2, animation polish
+const V20SN={n:'VFX Pack 2',d:'Lightning, shield dome, whirlwind, healing rings and a meteor. Press 1-5 in Play.',c1:'#1aa3c9',c2:'#12526b',parts:[],scripts:[{n:'VFXPack2',cls:'LocalScript',src:`-- VFX Pack 2: press 1-5 (or click the buttons) in Play to preview each effect.
+local RS=game:GetService("RunService")
+local UIS=game:GetService("UserInputService")
+local lp=game.Players.LocalPlayer
+local live={}
+local clock=0
+local function now() return clock end
+local cursor=1
+RS.Heartbeat:Connect(function(dt)
+  clock=clock+dt
+  local t=clock
+  for i=#live,1,-1 do
+    local f=live[i]
+    if t-f.t0>=f.life then
+      f.part:Destroy()
+      table.remove(live,i)
+    end
+  end
+  local n=#live
+  local c=0
+  while c<24 and c<n do
+    if cursor>n then cursor=1 end
+    local f=live[cursor]
+    f.step(f.part,(t-f.t0)/f.life)
+    cursor=cursor+1
+    c=c+1
+  end
+end)
+local MAXLIVE=90
+local function spawn(x,y,z,size,r,g,b,life,step)
+  if #live>=MAXLIVE then return end
+  local p=Instance.new("Part")
+  p.Anchored=true
+  pcall(function() p.CanCollide=false end)
+  p.Size=Vector3.new(size,size,size)
+  p.Position=Vector3.new(x,y,z)
+  p.Color=Color3.fromRGB(r,g,b)
+  p.Transparency=0.2
+  p.Parent=workspace
+  live[#live+1]={part=p,t0=now(),life=life,step=step}
+end
+local function aim()
+  local dx,dz=0,1
+  pcall(function()
+    local lv=workspace.CurrentCamera.CFrame.LookVector
+    dx,dz=lv.X,lv.Z
+  end)
+  local m=math.sqrt(dx*dx+dz*dz)
+  if m<0.01 then dx,dz,m=0,1,1 end
+  return dx/m,dz/m
+end
+local function front(d)
+  local x,y,z=playerPos()
+  local dx,dz=aim()
+  return x+dx*d,y,z+dz*d
+end
+local function impact()
+  local g=Instance.new("ScreenGui")
+  local ok=pcall(function() g.Parent=lp.PlayerGui end)
+  if not ok or not g.Parent then g.Parent=game:GetService("StarterGui") end
+  local f=Instance.new("Frame")
+  f.Size=UDim2.new(1,0,1,0)
+  f.BorderSizePixel=0
+  f.Parent=g
+  local seq={{255,255,255,0.05},{0,0,0,0.06},{255,255,255,0.04},{255,60,60,0.05}}
+  local i=0
+  local function nxt()
+    i=i+1
+    local s=seq[i]
+    if not s then g:Destroy() return end
+    f.BackgroundColor3=Color3.fromRGB(s[1],s[2],s[3])
+    task.delay(s[4],nxt)
+  end
+  nxt()
+end
+local function boom(x,y,z)
+  spawn(x,y+1,z,2,255,170,40,0.5,function(p,k) local s=2+k*12 p.Size=Vector3.new(s,s,s) p.Transparency=0.2+k*0.8 end)
+  spawn(x,y+0.2,z,2,255,255,255,0.35,function(p,k) local s=2+k*26 p.Size=Vector3.new(s,0.4,s) p.Transparency=0.3+k*0.7 end)
+end
+local function lightning()
+  local x,y,z=front(14)
+  for i=0,12 do
+    local jx=(i<12) and (math.random()-0.5)*7 or 0
+    local jz=(i<12) and (math.random()-0.5)*7 or 0
+    spawn(x+jx,y+60-i*5,z+jz,2.2,230,240,255,0.35,function(p,k)
+      local s=2.2*(1-k*0.6)
+      p.Size=Vector3.new(s,5.5,s)
+      p.Transparency=0.05+k*0.95
+    end)
+  end
+  boom(x,y,z)
+  impact()
+end
+local function shield()
+  local x,y,z=playerPos()
+  local H={1.5,3.5,5.5}
+  local R={5.5,4.8,3}
+  for r=1,3 do
+    task.delay((r-1)*0.12,function()
+      for i=1,10 do
+        local a=i/10*6.283
+        spawn(x+math.cos(a)*R[r],y+H[r],z+math.sin(a)*R[r],1.4,120,200,255,2.5,function(p,k)
+          p.Transparency=math.min(1,0.25+math.abs(math.sin(k*9))*0.25+(k>0.8 and (k-0.8)*3 or 0))
+        end)
+      end
+    end)
+  end
+end
+local function whirlwind()
+  local x,y,z=playerPos()
+  for i=1,16 do
+    local ph=i/16*6.283
+    spawn(x,y,z,0.7,210,230,255,2.2,function(p,k)
+      local a=ph+k*12
+      local r=3+k*2
+      p.Position=Vector3.new(x+math.cos(a)*r,y+k*14,z+math.sin(a)*r)
+      p.Transparency=0.2+k*0.8
+    end)
+  end
+end
+local function healing()
+  local x,y,z=playerPos()
+  for i=0,2 do
+    task.delay(i*0.35,function()
+      spawn(x,y+0.2,z,2,90,255,140,0.8,function(p,k) local s=2+k*14 p.Size=Vector3.new(s,0.3,s) p.Transparency=0.3+k*0.7 end)
+    end)
+  end
+  for i=1,12 do
+    local ox,oz=(math.random()-0.5)*8,(math.random()-0.5)*8
+    spawn(x+ox,y,z+oz,0.5,150,255,170,1.8,function(p,k)
+      p.Position=Vector3.new(x+ox,y+k*8,z+oz)
+      p.Transparency=0.2+k*0.8
+    end)
+  end
+end
+local function meteor()
+  local tx,ty,tz=front(16)
+  spawn(tx+30,ty+50,tz+30,1,255,140,40,1.0,function(p,k)
+    local s=3+k*3
+    p.Size=Vector3.new(s,s,s)
+    p.Position=Vector3.new(tx+30*(1-k),ty+50*(1-k)+1,tz+30*(1-k))
+    p.Transparency=0.1
+  end)
+  task.delay(1.0,function()
+    boom(tx,ty,tz)
+    for i=1,10 do
+      local a=math.random()*6.28
+      local sp=5+math.random()*8
+      local vx,vz,vy=math.cos(a)*sp,math.sin(a)*sp,5+math.random()*8
+      spawn(tx,ty+1,tz,0.6+math.random(),255,120+math.random(100),30,0.8,function(p,k)
+        local t=k*0.8
+        p.Position=Vector3.new(tx+vx*t,ty+1+vy*t-18*t*t,tz+vz*t)
+        p.Transparency=k
+      end)
+    end
+    impact()
+  end)
+end
+local FX={{"Lightning",lightning},{"Shield Dome",shield},{"Whirlwind",whirlwind},{"Healing Rings",healing},{"Meteor",meteor}}
+local names={"One","Two","Three","Four","Five"}
+UIS.InputBegan:Connect(function(input,gp)
+  local ok,n=pcall(function() return input.KeyCode.Name end)
+  if not ok or not n then return end
+  for i=1,5 do if n==names[i] then FX[i][2]() end end
+end)
+local gui=Instance.new("ScreenGui")
+local ok=pcall(function() gui.Parent=lp.PlayerGui end)
+if not ok or not gui.Parent then gui.Parent=game:GetService("StarterGui") end
+for i=1,5 do
+  local b=Instance.new("TextButton")
+  b.Size=UDim2.new(0,112,0,34)
+  b.Position=UDim2.new(0.5,-290+(i-1)*118,1,-60)
+  b.Text=i..": "..FX[i][1]
+  b.BackgroundColor3=Color3.fromRGB(30,90,120)
+  b.TextColor3=Color3.fromRGB(255,255,255)
+  b.Parent=gui
+  b.MouseButton1Click:Connect(FX[i][2])
+end
+`}]};
+SNIPS.push(V20SN);
+FACES.push('Starry Eyes','Tongue Out','Mad Fury','Peaceful','Sparkle Wink','Skull');
+const _df=drawFace;drawFace=function(g,i){if(i<18)return _df(g,i);g.fillStyle='#fff';g.fillRect(0,0,256,256);g.fillStyle='#111';g.strokeStyle='#111';g.lineWidth=12;g.lineCap='round';const P=Math.PI,eye=(x,y,rx,ry)=>{g.beginPath();g.ellipse(x,y,rx,ry,0,0,7);g.fill()},arc=(x,y,r,a,b)=>{g.beginPath();g.arc(x,y,r,a,b);g.stroke()},star=(cx,cy,R,r)=>{g.beginPath();for(let k=0;k<10;k++){const a=-P/2+k*P/5,d=k%2?r:R;g[k?'lineTo':'moveTo'](cx+Math.cos(a)*d,cy+Math.sin(a)*d)}g.closePath();g.fill()};
+if(i===18){g.fillStyle='#ffc400';star(88,104,30,13);star(168,104,30,13);g.fillStyle='rgba(255,90,120,.55)';eye(52,152,20,11);eye(204,152,20,11);g.strokeStyle='#111';arc(128,140,50,.2*P,.8*P)}
+else if(i===19){eye(88,100,12,20);eye(168,100,12,20);g.beginPath();g.moveTo(80,142);g.quadraticCurveTo(128,200,176,142);g.closePath();g.fill();g.fillStyle='#ff6f91';g.beginPath();g.ellipse(128,170,18,24,0,0,7);g.fill()}
+else if(i===20){eye(88,112,12,16);eye(168,112,12,16);g.lineWidth=16;g.beginPath();g.moveTo(52,70);g.lineTo(110,98);g.moveTo(204,70);g.lineTo(146,98);g.stroke();g.lineWidth=10;g.strokeRect(82,160,92,36);g.beginPath();for(const x of[105,128,151]){g.moveTo(x,160);g.lineTo(x,196)}g.moveTo(82,178);g.lineTo(174,178);g.stroke()}
+else if(i===21){arc(88,108,22,1.15*P,1.85*P);arc(168,108,22,1.15*P,1.85*P);g.fillStyle='rgba(255,90,120,.45)';eye(54,150,20,11);eye(202,150,20,11);g.strokeStyle='#111';g.lineWidth=10;arc(128,150,34,.25*P,.75*P)}
+else if(i===22){eye(88,104,12,20);arc(168,108,24,1.1*P,1.9*P);g.strokeStyle='#ffc400';g.lineWidth=7;g.beginPath();g.moveTo(206,54);g.lineTo(206,86);g.moveTo(190,70);g.lineTo(222,70);g.stroke();g.strokeStyle='#111';g.lineWidth=12;arc(128,140,52,.2*P,.8*P)}
+else{eye(88,104,26,34);eye(168,104,26,34);g.beginPath();g.moveTo(128,132);g.lineTo(114,160);g.lineTo(142,160);g.closePath();g.fill();g.lineWidth=8;g.strokeRect(78,176,100,34);g.beginPath();for(const x of[103,128,153]){g.moveTo(x,176);g.lineTo(x,210)}g.stroke()}};
+const S20=V12S;Object.assign(V12G,{
+'Lighthouse':()=>{const o=[];for(let i=0;i<6;i++){const w=8-i*.9;o.push(S20('block','Tower',[0,2+i*4,0],[w,4,w],i%2?'#f4f4f4':'#d9382f'))}o.push(S20('block','Gallery',[0,25,0],[6.5,.8,6.5],'#333a45'),S20('block','Lamp',[0,26.4,0],[3,2,3],'#ffe27a'),S20('block','Roof',[0,28,0],[4,1.2,4],'#d9382f'));return o},
+'Windmill':()=>{const o=[];for(let i=0;i<4;i++)o.push(S20('block','Body',[0,3+i*6,0],[8-i*1.2,6,8-i*1.2],i%2?'#efe6d2':'#e0d3b6'));o.push(S20('block','Cap',[0,25.5,0],[7,3,7],'#7a4b2a'),S20('block','Hub',[0,19,4.4],[1.6,1.6,1.6],'#4a3321'),S20('block','BladeV',[0,19,4.9],[1.2,16,.4],'#f3efe6'),S20('block','BladeH',[0,19,4.9],[16,1.2,.4],'#f3efe6'));return o},
+'Arch Bridge':()=>{const o=[S20('block','Deck',[0,6,0],[26,1,6],'#9a8f80'),S20('block','RailL',[0,7.1,-2.8],[26,1.2,.4],'#6f665b'),S20('block','RailR',[0,7.1,2.8],[26,1.2,.4],'#6f665b')];for(const sx of[-1,1]){o.push(S20('block','Pier',[sx*11,2.5,0],[4,5,6],'#8a8071'),S20('block','Corbel',[sx*8.2,4.6,0],[3,1.2,6],'#8a8071'),S20('block','Corbel',[sx*6.2,3.6,0],[2,1.2,6],'#8a8071'))}return o},
+'Pyramid':()=>{const o=[];for(let i=0;i<8;i++)o.push(S20('block','Layer',[0,1+i*2,0],[24-i*3,2,24-i*3],i%2?'#d9bf7a':'#e6cf8f'));return o},
+'Fountain':()=>[S20('block','Basin',[0,.5,0],[10,1,10],'#9b9fa8'),S20('block','Water',[0,1.1,0],[8,.6,8],'#4dabf7'),S20('block','Pedestal',[0,3,0],[2,4,2],'#b4b8c0'),S20('block','Bowl',[0,5.3,0],[5,.6,5],'#b4b8c0'),S20('block','Jet',[0,7,0],[1,3,1],'#a5d8ff')],
+'Market Stall':()=>{const o=[];for(const x of[-3,3])for(const z of[-2,2])o.push(S20('block','Post',[x,2.5,z],[.6,5,.6],'#7a4b2a'));o.push(S20('block','Counter',[0,1,2.2],[6.4,1.2,1.6],'#a0703c'));for(let i=0;i<6;i++)o.push(S20('block','Awning',[-2.75+i*1.1,5.3,0],[1.1,.4,5.6],i%2?'#ffffff':'#d9382f'));o.push(S20('block','Crate',[-1.8,1.9,2.2],[1,.8,1],'#e9a23b'),S20('block','Crate',[0,1.9,2.2],[1,.8,1],'#6fbf4a'),S20('block','Crate',[1.8,1.9,2.2],[1,.8,1],'#d9382f'));return o}});
+for(const n of['Lighthouse','Windmill','Arch Bridge','Pyramid','Fountain','Market Stall'])PREFABS.push([n,V12G[n]]);
+v12Fill();
+function v20Polish(a,spd,sprint,air,fall,dt,ts){if(!a||!a.body)return;const idle=!air&&!fall&&spd<1.5&&!(a.em|0),run=Math.min(1,spd/16);if(idle){const s=Math.sin(ts*2.2);a.body.position.y+=s*.006;a.aL.rotation.z+=s*.004;a.aR.rotation.z-=s*.004}else if(!air&&!fall){a.body.rotation.z+=Math.sin(a.t*2)*.012*run}}
+const _anim=animate;animate=function(a,spd,sprint,air,fall,dt,ts){const r=_anim.apply(this,arguments);v20Polish(a,spd,sprint,air,fall,dt,ts);return r};
+const _rep2=v15Reply;v15Reply=function(q){const t=q.toLowerCase();if(/lightning|shield|whirlwind|meteor|healing/.test(t)){insertSnip(V20SN);return 'Inserted VFX Pack 2: lightning, shield dome, whirlwind, healing rings and a meteor. Press Play, then keys 1-5 (or the buttons).'}const k=Object.keys(V12G).find(n=>t.includes(n.toLowerCase()));if(k){V12API.add(V12G[k](),k);return 'Placed a '+k+'.'}return _rep2(q)};
 // ---------- boot: face texture// ---------- boot: face texture, screenshot thumbnail, session
 function shot(){const pr=ren.getPixelRatio();ren.setPixelRatio(1);ren.setSize(640,360,false);cam.aspect=16/9;cam.fov=55;cam.updateProjectionMatrix();
  lp.g.position.set(19,.4,7);lp.g.rotation.y=-.32;animate(lp,0,false,false,false,.016,1);cam.position.set(14,6,22);cam.lookAt(21.5,3.5,2);sky.position.copy(cam.position);glow.position.copy(cam.position).addScaledVector(sunDir,420);

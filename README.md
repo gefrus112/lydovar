@@ -61,6 +61,12 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v20: new faces, models, VFX Pack 2, animation polish
+- **6 new faces** (Catalog > Faces): Starry Eyes, Tongue Out, Mad Fury, Peaceful, Sparkle Wink, Skull.
+- **6 new models** (Toolbox > Models, Plugins tab, or ask the Assistant): Lighthouse, Windmill, Arch Bridge, Pyramid, Fountain, Market Stall.
+- **VFX Pack 2** (Toolbox > Scripts): Lightning, Shield Dome, Whirlwind, Healing Rings, Meteor. Keys 1-5 or the buttons in Play. Frame-budgeted like VFX Pack.
+- **Animation polish**: gentle idle breathing and arm sway, and a subtle hip sway while running.
+
 ## v19: update checker
 - If a newer version is live, a banner appears at the top with an **Update now** button that bypasses the browser cache. GitHub Pages lets browsers keep a page for up to 10 minutes (longer on some phones), which can leave you on an old build. You can also open the site with `?v=NUMBER` on the end to force a fresh copy.
 
