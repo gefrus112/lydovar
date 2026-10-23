@@ -61,6 +61,9 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v18: fix "fn is not a function" on load
+- **Fixed**: if your saved outfit had the Dominus hat or a Daily Shop hat, the page crashed on load with `TypeError: fn is not a function`. Those hats were registered after the first avatar was built. The avatar builder now skips an item that is not registered yet (and retries on the next call), and the avatar is rebuilt once everything is loaded, so your hat still shows. Added regression tests that reload with each kind of saved hat.
+
 ## v17: VFX Pack, Studio settings gear, graphics presets
 - **VFX Pack** (Studio > Toolbox > Scripts, or ask the Assistant for "explosion vfx"): a LocalScript with six effects: explosion, beam, energy wave (charge, then beam and blast), floating particles, impact frames (white / black / white / red screen flashes) and an anime slash. Press 1-6 or click the buttons in Play. Effects are frame-budgeted (at most 90 live parts, 24 updated per frame) so they do not trip the engine's script time limit. Copy the functions into your own scripts.
 - **Studio settings gear** (top right in Studio): theme, graphics preset, insert VFX Pack, data backup / restore.

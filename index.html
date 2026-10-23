@@ -437,7 +437,7 @@ const tagTex=t=>T(512,96,(x)=>{x.font='bold 56px sans-serif';x.textAlign='center
 const setTag=(a,t)=>{if(a.tag.material.map)a.tag.material.map.dispose();a.tag.material.map=tagTex(t);a.tag.material.needsUpdate=true};
 function outfit(a,o){const k=o.join();if(a.o&&a.o.join()===k)return;a.o=o.slice();const[s,p,f,h,b,hr,fr]=o,sm=shirtM(s);
  a.ms[0].material=headM(f);a.ms[1].material=sm.tm;a.ms[2].material=a.ms[3].material=sm.sm;a.ms[4].material=a.ms[5].material=pantsM(p);
- for(const[grp,fn]of[[a.cone,HATB[h]],[a.back,BACKB[b]],[a.hair,HAIRB[hr]],[a.front,FRONTB[fr]]]){grp.clear();grp.add(fn())}a.hair.visible=!HATCOVER[h]}
+ for(const[grp,fn]of[[a.cone,HATB[h]],[a.back,BACKB[b]],[a.hair,HAIRB[hr]],[a.front,FRONTB[fr]]]){grp.clear();if(fn)grp.add(fn());else a.o=null}a.hair.visible=!HATCOVER[h]}
 const accMeshes=a=>{const r=[];for(const g of[a.cone,a.back,a.hair,a.front])g.traverse(o=>o.isMesh&&r.push(o));return r};
 function mkAvatar(name,o){const g=new THREE.Group(),body=new THREE.Group();g.add(body);
  const P=(geo,m,x,y,par)=>{const p=new THREE.Mesh(geo,m);p.position.set(x,y,0);p.castShadow=true;(par||body).add(p);return p};
