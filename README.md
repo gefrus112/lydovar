@@ -61,6 +61,13 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v15: exit fix, coins and daily shop, themes and settings, Studio Assistant, server search
+- **Fixed**: leaving a game left the backpack, health bar, pause menu, fire button and script-drawn GUIs on screen. They are now cleared.
+- **Coins**: 100 to start, +50 daily login bonus, +2 every 20 seconds in a game. **Daily Shop** (Catalog): limited-edition hats with FREE / price tags, three COMING SOON items and a restock countdown (new picks every UTC day). Catalog and pages now scroll.
+- **Themes**: site-wide themes (Dark, White, Midnight, High contrast, Sunset, Forest). New **Settings** page (gear button, bottom right): theme, avatar outlines, coin counter, max players when hosting, data backup.
+- **Studio Assistant**: a chat helper in Studio that builds models, inserts scripts, explains script errors and shows Lua examples. It is an offline rule-based helper, not a language model.
+- **Servers**: search box over the public server list. Hosts can raise the player cap up to 200 in Settings. Your browser is the server, so large rooms depend on your connection.
+
 ## v14: Dominus hat, outlined avatars
 - New hat **Dominus**: a dark spiked crown with glowing red spikes, a gem and a floating ring (Catalog > Hats).
 - Avatars now get a cartoon-style outline on their solid parts, including after you change outfit. Turn it off by setting `lyd_outline` to `0` in local storage.
