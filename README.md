@@ -61,6 +61,11 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v17: VFX Pack, Studio settings gear, graphics presets
+- **VFX Pack** (Studio > Toolbox > Scripts, or ask the Assistant for "explosion vfx"): a LocalScript with six effects: explosion, beam, energy wave (charge, then beam and blast), floating particles, impact frames (white / black / white / red screen flashes) and an anime slash. Press 1-6 or click the buttons in Play. Effects are frame-budgeted (at most 90 live parts, 24 updated per frame) so they do not trip the engine's script time limit. Copy the functions into your own scripts.
+- **Studio settings gear** (top right in Studio): theme, graphics preset, insert VFX Pack, data backup / restore.
+- **Graphics presets** (Settings page or Studio gear): Standard, Vivid (richer colour) and Ultra (sharper shadows, higher resolution, longer view distance).
+
 ## v16: body types, group icons, Safe Chat, new home page, GUI drag
 - **Avatars**: cartoon proportions (bigger head) and a **Male / Female** body type (Settings). The body type shows on your own avatar; other players still see the default body.
 - **Groups**: owners can upload a group icon (PNG, GIF, JPG or WebP; the real file type is checked, SVG is rejected; GIFs up to about 250 KB, big PNG/JPG are shrunk) and edit the description. Icons show in the group list and on the group page.

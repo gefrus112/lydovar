@@ -1727,6 +1727,181 @@ gp.addEventListener('pointerdown',e=>{if(state!=='studio')return;const n=nodeAt(
 window.addEventListener('pointermove',e=>{if(!d)return;const dx=e.clientX-d.x,dy=e.clientY-d.y,p=d.n.p;if(d.rs){p.size[1]=Math.max(8,Math.round(d.s[1]+dx));p.size[3]=Math.max(8,Math.round(d.s[3]+dy))}else{p.pos[1]=Math.round(d.p[1]+dx);p.pos[3]=Math.round(d.p[3]+dy)}guiApply(d.n)});
 window.addEventListener('pointerup',()=>{if(d){d=null;showProps()}})})();
 try{outfit(lp,OUT)}catch(e){}
+// ---------- v17: VFX library, Studio settings gear, graphics presets
+(function(){const c=document.createElement('style');c.textContent=`html.gfx-vivid:not(.th-light) canvas{filter:saturate(1.15) contrast(1.06)}#v17gear{position:fixed;right:12px;top:52px;z-index:960;display:none;width:34px;height:34px;border-radius:50%;border:0;background:#2a3144;color:#fff;font:20px sans-serif;cursor:pointer}#v17m{position:fixed;right:12px;top:94px;z-index:960;width:250px;background:#1b1f2b;color:#e8ecff;border-radius:12px;box-shadow:0 8px 30px #0008;font:13px sans-serif;overflow:hidden}.v17r{padding:8px 10px;display:flex;justify-content:space-between;gap:8px;align-items:center}`;document.head.append(c)})();
+const V17SN={n:'VFX Pack',d:'Explosion, beam, energy wave, floating particles, impact frames and an anime slash. Press 1-6 in Play.',c1:'#7c5cff',c2:'#3b2a99',parts:[],scripts:[{n:'VFXPack',cls:'LocalScript',src:`-- VFX Pack: press 1-6 (or click the buttons) in Play to preview each effect.
+local RS=game:GetService("RunService")
+local UIS=game:GetService("UserInputService")
+local lp=game.Players.LocalPlayer
+local live={}
+local clock=0
+local function now() return clock end
+local cursor=1
+RS.Heartbeat:Connect(function(dt)
+  clock=clock+dt
+  local t=clock
+  for i=#live,1,-1 do
+    local f=live[i]
+    if t-f.t0>=f.life then
+      f.part:Destroy()
+      table.remove(live,i)
+    end
+  end
+  local n=#live
+  local c=0
+  while c<24 and c<n do
+    if cursor>n then cursor=1 end
+    local f=live[cursor]
+    f.step(f.part,(t-f.t0)/f.life)
+    cursor=cursor+1
+    c=c+1
+  end
+end)
+local MAXLIVE=90
+local function spawn(x,y,z,size,r,g,b,life,step)
+  if #live>=MAXLIVE then return end
+  local p=Instance.new("Part")
+  p.Anchored=true
+  pcall(function() p.CanCollide=false end)
+  p.Size=Vector3.new(size,size,size)
+  p.Position=Vector3.new(x,y,z)
+  p.Color=Color3.fromRGB(r,g,b)
+  p.Transparency=0.2
+  p.Parent=workspace
+  live[#live+1]={part=p,t0=now(),life=life,step=step}
+end
+local function aim()
+  local dx,dz=0,1
+  pcall(function()
+    local lv=workspace.CurrentCamera.CFrame.LookVector
+    dx,dz=lv.X,lv.Z
+  end)
+  local m=math.sqrt(dx*dx+dz*dz)
+  if m<0.01 then dx,dz,m=0,1,1 end
+  return dx/m,dz/m
+end
+local function front(d)
+  local x,y,z=playerPos()
+  local dx,dz=aim()
+  return x+dx*d,y,z+dz*d
+end
+local function impact()
+  local g=Instance.new("ScreenGui")
+  local ok=pcall(function() g.Parent=lp.PlayerGui end)
+  if not ok or not g.Parent then g.Parent=game:GetService("StarterGui") end
+  local f=Instance.new("Frame")
+  f.Size=UDim2.new(1,0,1,0)
+  f.BorderSizePixel=0
+  f.Parent=g
+  local seq={{255,255,255,0.05},{0,0,0,0.06},{255,255,255,0.04},{255,60,60,0.05}}
+  local i=0
+  local function nxt()
+    i=i+1
+    local s=seq[i]
+    if not s then g:Destroy() return end
+    f.BackgroundColor3=Color3.fromRGB(s[1],s[2],s[3])
+    task.delay(s[4],nxt)
+  end
+  nxt()
+end
+local function explosion(x,y,z)
+  spawn(x,y+1,z,2,255,170,40,0.5,function(p,k) local s=2+k*14 p.Size=Vector3.new(s,s,s) p.Transparency=0.2+k*0.8 end)
+  spawn(x,y+0.2,z,2,255,255,255,0.35,function(p,k) local s=2+k*30 p.Size=Vector3.new(s,0.4,s) p.Transparency=0.3+k*0.7 end)
+  for i=1,14 do
+    local a=math.random()*6.28
+    local sp=6+math.random()*10
+    local vx,vz,vy=math.cos(a)*sp,math.sin(a)*sp,6+math.random()*10
+    spawn(x,y+1,z,0.5+math.random(),255,120+math.random(100),30,0.9,function(p,k)
+      local t=k*0.9
+      p.Position=Vector3.new(x+vx*t,y+1+vy*t-18*t*t,z+vz*t)
+      p.Transparency=k
+    end)
+  end
+end
+local function beam(ax,ay,az,bx,by,bz,r,g,b,life,w)
+  for i=0,12 do
+    local f=i/12
+    spawn(ax+(bx-ax)*f,ay+(by-ay)*f,az+(bz-az)*f,w,r,g,b,life,function(p,k)
+      local s=w*(1-k*0.7)
+      p.Size=Vector3.new(s,s,s)
+      p.Transparency=0.1+k*0.9
+    end)
+  end
+end
+local function energyWave()
+  local cx,cy,cz=front(3)
+  spawn(cx,cy+2,cz,1,120,200,255,1.0,function(p,k) local s=1+k*5 p.Size=Vector3.new(s,s,s) p.Transparency=0.4-k*0.3 end)
+  task.delay(1.0,function()
+    local dx,dz=aim()
+    local ex,ez=cx+dx*60,cz+dz*60
+    beam(cx,cy+2,cz,ex,cy+2,ez,90,170,255,0.8,4)
+    beam(cx,cy+2,cz,ex,cy+2,ez,255,255,255,0.8,1.6)
+    explosion(ex,cy,ez)
+  end)
+end
+local function floating()
+  local x,y,z=playerPos()
+  for i=1,18 do
+    local ph=math.random()*6.28
+    local ox,oz=(math.random()-0.5)*14,(math.random()-0.5)*14
+    spawn(x+ox,y,z+oz,0.35,255,220,120,3,function(p,k)
+      local t=k*3
+      p.Position=Vector3.new(x+ox+math.sin(t*2+ph)*1.5,y+t*3,z+oz+math.cos(t*2+ph)*1.5)
+      p.Transparency=0.2+k*0.8
+    end)
+  end
+end
+local function slash()
+  local x,y,z=front(10)
+  for i=1,3 do
+    local ang=i*1.05
+    local dx,dz=math.cos(ang),math.sin(ang)
+    for j=-6,6,2 do
+      spawn(x+dx*j,y+1+(i-2)*0.4,z+dz*j,0.6,255,255,255,0.25,function(p,k)
+        local s=0.6*(1-k)
+        p.Size=Vector3.new(s,s,s)
+        p.Transparency=k
+      end)
+    end
+  end
+  impact()
+end
+local FX={
+  {"Explosion",function() local x,y,z=front(12) explosion(x,y,z) end},
+  {"Beam",function() local x,y,z=front(2) local dx,dz=aim() beam(x,y+2,z,x+dx*40,y+2,z+dz*40,255,80,200,0.7,2) end},
+  {"Energy Wave",energyWave},
+  {"Particles",floating},
+  {"Impact Frame",impact},
+  {"Anime Slash",slash}}
+local names={"One","Two","Three","Four","Five","Six"}
+UIS.InputBegan:Connect(function(input,gp)
+  local ok,n=pcall(function() return input.KeyCode.Name end)
+  if not ok or not n then return end
+  for i=1,6 do if n==names[i] then FX[i][2]() end end
+end)
+local gui=Instance.new("ScreenGui")
+local ok=pcall(function() gui.Parent=lp.PlayerGui end)
+if not ok or not gui.Parent then gui.Parent=game:GetService("StarterGui") end
+for i=1,6 do
+  local b=Instance.new("TextButton")
+  b.Size=UDim2.new(0,110,0,34)
+  b.Position=UDim2.new(0.5,-340+(i-1)*114,1,-60)
+  b.Text=i..": "..FX[i][1]
+  b.BackgroundColor3=Color3.fromRGB(60,40,120)
+  b.TextColor3=Color3.fromRGB(255,255,255)
+  b.Parent=gui
+  b.MouseButton1Click:Connect(FX[i][2])
+end
+`}]};
+SNIPS.push(V17SN);
+function v17Gfx(){const m=LS.get('lyd_gfx','standard'),u=m==='ultra';try{document.documentElement.classList.toggle('gfx-vivid',m!=='standard');ren.setPixelRatio(u?Math.min(devicePixelRatio||1,2):Math.min(devicePixelRatio||1,1.5));sun.shadow.mapSize.set(u?4096:2048,u?4096:2048);if(sun.shadow.map){sun.shadow.map.dispose();sun.shadow.map=null}if(scene.fog){scene.fog.near=u?140:100;scene.fog.far=u?420:320}ren.toneMappingExposure=u?1.18:1.1;ren.setSize(innerWidth,innerHeight)}catch(e){}}
+const _set3=PAGES.settings;PAGES.settings=function(el){const r=_set3.apply(this,arguments);const box=document.createElement('div');box.className='glass';box.style.cssText='max-width:640px;margin:8px 0';box.innerHTML='<div class="sec">Graphics</div><div id="v17gp" class="row2" style="gap:6px"></div><div class="mut" style="margin-top:6px">Vivid adds richer colour. Ultra also sharpens shadows and resolution (needs a stronger device).</div>';el.append(box);const cur=LS.get('lyd_gfx','standard');[['standard','Standard'],['vivid','Vivid'],['ultra','Ultra']].forEach(([k,l])=>{const b=document.createElement('button');b.className='btn g'+(k===cur?' on':'');b.textContent=l;b.onclick=()=>{LS.set('lyd_gfx',k);v17Gfx();PAGES.settings(el)};box.querySelector('#v17gp').append(b)});return r};
+(function(){const b=document.createElement('button');b.id='v17gear';b.title='Studio settings';b.textContent='\u2699';document.body.append(b);
+b.onclick=()=>{let m=document.getElementById('v17m');if(m){m.remove();return}m=document.createElement('div');m.id='v17m';m.innerHTML='<div class="v15h">Studio settings</div><div class="v17r">Theme <select id="v17t"></select></div><div class="v17r">Graphics <select id="v17g"></select></div><div class="v17r"><button class="btn" id="v17v">Insert VFX Pack</button></div><div class="v17r"><button class="btn" id="v17b">Backup data</button> <button class="btn" id="v17r">Restore</button></div>';document.body.append(m);
+const T=m.querySelector('#v17t'),G=m.querySelector('#v17g');[['dark','Dark'],['light','White'],['midnight','Midnight'],['contrast','High contrast'],['sunset','Sunset'],['forest','Forest']].forEach(([k,l])=>T.add(new Option(l,k)));[['standard','Standard'],['vivid','Vivid'],['ultra','Ultra']].forEach(([k,l])=>G.add(new Option(l,k)));T.value=LS.get('lyd_theme','dark');G.value=LS.get('lyd_gfx','standard');T.onchange=()=>{LS.set('lyd_theme',T.value);v12Theme()};G.onchange=()=>{LS.set('lyd_gfx',G.value);v17Gfx()};m.querySelector('#v17v').onclick=()=>{insertSnip(V17SN);v12Toast('VFX Pack added to scripts')};m.querySelector('#v17b').onclick=v12Backup;m.querySelector('#v17r').onclick=v12Restore};
+setInterval(()=>{b.style.display=state==='studio'?'block':'none';if(state!=='studio'){const m=document.getElementById('v17m');if(m)m.remove()}},500)})();
+const _rep=v15Reply;v15Reply=function(q){if(/vfx|explosion|beam|particle|impact|energy wave|ki blast|slash/i.test(q)){insertSnip(V17SN);return 'Inserted the VFX Pack: explosion, beam, energy wave, floating particles, impact frames and an anime slash. Press Play, then keys 1-6 (or the buttons) to preview them. Edit the LocalScript to change colours and sizes.'}return _rep(q)};
+v17Gfx();
 // ---------- boot: face texture// ---------- boot: face texture, screenshot thumbnail, session
 function shot(){const pr=ren.getPixelRatio();ren.setPixelRatio(1);ren.setSize(640,360,false);cam.aspect=16/9;cam.fov=55;cam.updateProjectionMatrix();
  lp.g.position.set(19,.4,7);lp.g.rotation.y=-.32;animate(lp,0,false,false,false,.016,1);cam.position.set(14,6,22);cam.lookAt(21.5,3.5,2);sky.position.copy(cam.position);glow.position.copy(cam.position).addScaledVector(sunDir,420);
