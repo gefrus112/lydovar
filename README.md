@@ -61,6 +61,12 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v21: Unreal-style Studio, friends, pause menu, engine extras
+- **Studio layout**: a flat, dark, Unreal-Engine-style layout (blue accents, uppercase panel headers, status bar with object / selection / script counts). Default is Unreal; switch to Classic in the Studio gear or Settings.
+- **Friends**: People page > My friends. Add friends by username (3-20 letters, numbers, _), remove them, and see who is in your server. Friends are saved in this browser (no server yet).
+- **Pause menu**: bigger buttons with hover motion, blurred background, a short controls reminder.
+- **Lua engine**: `HttpService:JSONEncode / JSONDecode / GenerateGUID`, `CollectionService` tags (`AddTag`, `RemoveTag`, `HasTag`, `GetTagged`, `GetTags`), and Luau helpers `math.sign`, `math.round`, `table.find`, `table.clone`, `table.clear`, `table.create`, `string.split`.
+
 ## v20: new faces, models, VFX Pack 2, animation polish
 - **6 new faces** (Catalog > Faces): Starry Eyes, Tongue Out, Mad Fury, Peaceful, Sparkle Wink, Skull.
 - **6 new models** (Toolbox > Models, Plugins tab, or ask the Assistant): Lighthouse, Windmill, Arch Bridge, Pyramid, Fountain, Market Stall.
