@@ -61,6 +61,13 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v22: Downloads, Studio menu bar, Lua compatibility, pasted-code assistant, Terraria models
+- **Downloads** (button at the bottom right, or Studio > File): install Lardovar as a desktop app (Chrome / Edge, own window and icon), download a fully offline `.html` copy (all libraries built in; multiplayer still needs internet), export your games, back up and restore your data. A native Windows or Mac installer is not available yet. Installable via `manifest.webmanifest` and a tiny no-cache `sw.js`.
+- **Studio menu bar** (File, Edit, View, Plugins, Test, Window, Help) like Roblox Studio: undo / redo / copy / paste / duplicate / group, themes, layout, graphics, add models, insert VFX packs, Play, Host server, Lua examples.
+- **Lua compatibility**: the Coin Collector example (ScreenGui, TextLabel, UICorner, `Touched`, `Players:GetPlayerFromCharacter`) now runs unchanged. Added `GetPlayerByUserId`, `IsDescendantOf`, `GetFullName`, `StarterGui:SetCore`, `Humanoid:MoveTo` (teleports), and `BindableEvent` / `RemoteEvent` (local, same game only). Still missing: `player.DisplayName`.
+- **Studio Assistant**: now a multi-line box. Paste Lua code and it is added as a script with a syntax check.
+- **Terraria-style models**: Terraria World (grass, dirt, stone, copper / iron / gold ore, trees), Terraria House, Dungeon Room, Ore Vein. Parts only have colours; textures are not supported yet.
+
 ## v21: Unreal-style Studio, friends, pause menu, engine extras
 - **Studio layout**: a flat, dark, Unreal-Engine-style layout (blue accents, uppercase panel headers, status bar with object / selection / script counts). Default is Unreal; switch to Classic in the Studio gear or Settings.
 - **Friends**: People page > My friends. Add friends by username (3-20 letters, numbers, _), remove them, and see who is in your server. Friends are saved in this browser (no server yet).
