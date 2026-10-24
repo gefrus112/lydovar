@@ -61,6 +61,16 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v23: Halloween, chill music, chat bubbles, friend requests, Halloween and anime items
+- **Halloween theme** on the login, sign-up and home pages (spooky sky, floating bats, moon and pumpkins). On by default in October; turn it on or off in Settings.
+- **Chill music player**: three lo-fi tracks generated in the browser (no audio files). Starts in games, with a small player (previous / play / next / volume). Music settings in Settings.
+- **Chat bubbles**: what a player says appears above their head for a few seconds.
+- **Friend requests**: type `/friend Name` in chat, or add by username on the People page when they are in your server. They get a popup with Accept or Decline. If they are not online with you, the friend is only added on your device. Requests go through the server host; they are rate limited and the sender name cannot be faked.
+- **New avatar items**: Halloween Collection in the Catalog (Witch Hat, Pumpkin Head, Devil Horns, Cat Ears, Bat Wings, Twin Tails, and faces Idol Eyes, Jack-o-Lantern, Zombie, Vampire). Twin Tails is an original anime-style teal hairstyle.
+- **Studio Assistant window removed** (hidden).
+- **Fixed**: a saved anime or skull face was drawn as a default face after reload.
+- Not done: voice chat, remote player movement smoothing.
+
 ## v22: Downloads, Studio menu bar, Lua compatibility, pasted-code assistant, Terraria models
 - **Downloads** (button at the bottom right, or Studio > File): install Lardovar as a desktop app (Chrome / Edge, own window and icon), download a fully offline `.html` copy (all libraries built in; multiplayer still needs internet), export your games, back up and restore your data. A native Windows or Mac installer is not available yet. Installable via `manifest.webmanifest` and a tiny no-cache `sw.js`.
 - **Studio menu bar** (File, Edit, View, Plugins, Test, Window, Help) like Roblox Studio: undo / redo / copy / paste / duplicate / group, themes, layout, graphics, add models, insert VFX packs, Play, Host server, Lua examples.
