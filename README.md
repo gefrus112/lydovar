@@ -61,6 +61,14 @@ Scripts run in a sandboxed Lua 5.3 VM (fengari) with no `os`, `io`, `require` an
 - Fixed: black ground (regenerated environment lighting) and a missing `</style>` that blanked the page. An on-screen error banner now shows any load error.
 
 
+## v24: real Roblox flight scripts, editable TextBox, notification bell, avatars-meet scene
+- **Roblox scripts like the Fly GUI work**: `game:Service(...)`, a real `workspace.CurrentCamera` (`CFrame.LookVector / RightVector / UpVector / Position`), `BodyVelocity` (moves the player, gravity off, stops at floors), `BodyGyro` and other `Body*` objects (accepted), `UserInputService:IsKeyDown`, editable `TextBox` (typing, `Text`, `FocusLost`), and `Draggable` frames. Try Studio > Help > Lua example: Fly GUI, or Studio > File > Import Roblox Lua script.
+- **Import Roblox Lua script** (Studio > File): paste any script, it picks Script / LocalScript / ModuleScript and checks the syntax.
+- **Notification bell** (top right): recent notifications and friend requests with Accept / Decline.
+- **Home page**: two avatars (you and a friend) walk in, turn toward each other and stop.
+- VFX Pack made cheaper (fewer parts, no per-part pcall) so it stays well inside the engine's script time limit.
+- Known limits: flight ignores walls (floors stop you); `BodyGyro` does not rotate the character; multiplayer anti-cheat may flag flying in hosted games.
+
 ## v23: Halloween, chill music, chat bubbles, friend requests, Halloween and anime items
 - **Halloween theme** on the login, sign-up and home pages (spooky sky, floating bats, moon and pumpkins). On by default in October; turn it on or off in Settings.
 - **Chill music player**: three lo-fi tracks generated in the browser (no audio files). Starts in games, with a small player (previous / play / next / volume). Music settings in Settings.
